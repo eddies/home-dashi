@@ -1,0 +1,29 @@
+{
+  "name": "home-dashi",
+  "version": "0.0.0",
+  "description": "A dashboard for data visualizations",
+  "license:": "Apache-2.0",
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "dc.js": "2.0.0-beta.9",
+    "admin-lte": "~2.0.5",
+    "colorbrewer": "~1.0.0",
+    "jquery-ui": "~1.11.4"
+  },
+  "devDependencies": {
+    "chai": "~2.3.0",
+    "mocha": "~2.1.0"
+  },
+  "overrides": {
+    "admin-lte": {
+      "main": [
+        "index2.html",
+        "dist/css/AdminLTE.css",
+        "dist/js/app.js",
+        "build/less/AdminLTE.less",
+        "dist/css/skins/skin-blue.css"
+      ]
+    }
+  }
+}
+
