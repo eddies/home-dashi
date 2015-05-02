@@ -16,7 +16,7 @@ var modified_onChart = dc.barChart('#modified_on-chart');
 var sg_arrival_dateChart = dc.barChart('#sg_arrival_date-chart');
 var start_working_dtChart = dc.barChart('#start_working_dt-chart');
 
-var genderChart = dc.rowChart('#gender-chart');
+var genderChart = dc.pieChart('#gender-chart');
 var worker_tpChart = dc.rowChart('#worker_tp-chart');
 var edulvl_codeChart = dc.rowChart('#edulvl_code-chart');
 var marists_codeChart = dc.rowChart('#marists_code-chart');
@@ -194,11 +194,17 @@ d3.csv('data/home.csv', function (rows) {
   	.xAxis().ticks(4)
       ;
   genderChart.dimension(gender_dim).group(gender_dimGroup)
-  	.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(genderChart.root()[0]).parent().width())
-  	.height(200)
-  	.elasticX(true)
-  	.xAxis().ticks(4)
+    .radius(80)
+    .label(function (d) {
+      if (genderChart.hasFilter() && !genderChart.hasFilter(d.key)) {
+          return d.key + '(0%)';
+      }
+      var label = d.key;
+      if (all.value()) {
+          label += '(' + Math.floor(d.value / all.value() * 100) + '%)';
+      }
+      return label;  
+    })
       ;
   edulvl_codeChart.dimension(edulvl_code_dim).group(edulvl_code_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 10})
