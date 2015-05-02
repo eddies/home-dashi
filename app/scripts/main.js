@@ -9,13 +9,33 @@
 // css selector.
 // Note: It is often a good idea to have these objects accessible at the global 
 // scope so that they can be modified or filtered by other page controls.
-var gainOrLossChart = dc.pieChart('#gain-loss-chart');
-var fluctuationChart = dc.barChart('#fluctuation-chart');
-var quarterChart = dc.pieChart('#quarter-chart');
-var dayOfWeekChart = dc.rowChart('#day-of-week-chart');
-var moveChart = dc.lineChart('#monthly-move-chart');
-var volumeChart = dc.barChart('#monthly-volume-chart');
-var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
+var case_opening_dtChart = dc.barChart('#case_opening_dt-chart');
+var case_closing_dtChart = dc.barChart('#case_closing_dt-chart');
+var created_onChart = dc.barChart('#created_on-chart');
+var modified_onChart = dc.barChart('#modified_on-chart');
+var sg_arrival_dateChart = dc.barChart('#sg_arrival_date-chart');
+var start_working_dtChart = dc.barChart('#start_working_dt-chart');
+
+var genderChart = dc.rowChart('#gender-chart');
+var worker_tpChart = dc.rowChart('#worker_tp-chart');
+var edulvl_codeChart = dc.rowChart('#edulvl_code-chart');
+var marists_codeChart = dc.rowChart('#marists_code-chart');
+var natl_codeChart = dc.rowChart('#natl_code-chart');
+
+var abuseChart = dc.rowChart('#abuse-chart');
+var ageChart = dc.barChart('#age-chart');
+var total_sal_pm_domesticChart = dc.barChart('#total_sal_pm_domestic-chart');
+var casests_codeChart = dc.rowChart('#casests_code-chart');
+
+var relg_codeChart = dc.rowChart('#relg_code-chart');
+var martsts_dpdntsChart = dc.barChart('#martsts_dpdnts-chart');
+var sg_stay_total_daysChart = dc.barChart('#sg_stay_total_days-chart');
+var agency_nmChart = dc.rowChart('#agency_nm-chart');
+
+var industryChart = dc.barChart('#industry-chart');
+var stay_durationChart = dc.barChart('#stay_duration-chart');
+var non_domestic_salaryChart = dc.barChart('#non_domestic_salary-chart');
+var day_off_per_mthChart = dc.barChart('#day_off_per_mth-chart');
 
 // ### Anchor Div for Charts
 /*
@@ -44,528 +64,344 @@ var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
 //   d3.csv('data.csv', function(data) {...};
 //   d3.json('data.json', function(data) {...};
 //   jQuery.getJson('data.json', function(data){...});
-d3.csv('data/demo.csv', function (rows) {
+d3.csv('data/home.csv', function (rows) {
     /* since its a csv file we need to format the data a bit */
-  var dateFormat = d3.time.format('%m/%d/%Y');
+  var dateFormat = d3.time.format('%Y-%m-%d');
+  var dateTimeFormat = d3.time.format('%Y-%m-%d %H:%M:%S');
   var numberFormat = d3.format('.2f');
   
   rows.forEach(function (d) {
-    d.dd = dateFormat.parse(d.date);
-    d.month = d3.time.month(d.dd); // pre-calculate month for better performance
-    d.close = +d.close; // coerce to number
-    d.open = +d.open;
+    d.case_opening_dt = d.case_opening_dt ? dateTimeFormat.parse(d.case_opening_dt) : Infinity;
+    d.case_closing_dt = d.case_closing_dt ? dateTimeFormat.parse(d.case_closing_dt) : Infinity;
+    d.created_on = d.created_on ? dateTimeFormat.parse(d.created_on) : Infinity;
+    d.modified_on = d.modified_on ? dateTimeFormat.parse(d.modified_on) : Infinity;
+    d.sg_arrival_date = d.sg_arrival_date ? dateTimeFormat.parse(d.sg_arrival_date) : Infinity;
+    d.start_working_dt = d.start_working_dt ? dateFormat.parse(d.start_working_dt) : Infinity;
   });
 
   // ### Create Crossfilter Dimensions and Groups
   // See the [crossfilter API](https://github.com/square/crossfilter/wiki/API-Reference)
   // for reference.
-    var cf = crossfilter(rows);
-    var all = cf.groupAll();
+  var cf = crossfilter(rows);
+  var all = cf.groupAll();
 
-    // dimension by year
-    var yearlyDimension = cf.dimension(function (d) {
-        return d3.time.year(d.dd).getFullYear();
-    });
-    // maintain running tallies by year as filters are applied or removed
-    var yearlyPerformanceGroup = yearlyDimension.group().reduce(
-        /* callback for when data is added to the current filter results */
-        function (p, v) {
-            ++p.count;
-            p.absGain += v.close - v.open;
-            p.fluctuation += Math.abs(v.close - v.open);
-            p.sumIndex += (v.open + v.close) / 2;
-            p.avgIndex = p.sumIndex / p.count;
-            p.percentageGain = p.avgIndex ? (p.absGain / p.avgIndex) * 100 : 0;
-            p.fluctuationPercentage = p.avgIndex ? (p.fluctuation / p.avgIndex) * 100 : 0;
-            return p;
-        },
-        /* callback for when data is removed from the current filter results */
-        function (p, v) {
-            --p.count;
-            p.absGain -= v.close - v.open;
-            p.fluctuation -= Math.abs(v.close - v.open);
-            p.sumIndex -= (v.open + v.close) / 2;
-            p.avgIndex = p.count ? p.sumIndex / p.count : 0;
-            p.percentageGain = p.avgIndex ? (p.absGain / p.avgIndex) * 100 : 0;
-            p.fluctuationPercentage = p.avgIndex ? (p.fluctuation / p.avgIndex) * 100 : 0;
-            return p;
-        },
-        /* initialize p */
-        function () {
-            return {
-                count: 0,
-                absGain: 0,
-                fluctuation: 0,
-                fluctuationPercentage: 0,
-                sumIndex: 0,
-                avgIndex: 0,
-                percentageGain: 0
-            };
-        }
-    );
+  var case_opening_dt_dim = cf.dimension(function (d) { return d.case_opening_dt; });
+  var case_closing_dt_dim = cf.dimension(function (d) { return d.case_closing_dt; });
+  var created_on_dim = cf.dimension(function (d) { return d.created_on; });
+  var modified_on_dim = cf.dimension(function (d) { return d.modified_on; });
+  var sg_arrival_date_dim = cf.dimension(function (d) { return d.sg_arrival_date; });
+  var start_working_dt_dim = cf.dimension(function (d) { return d.start_working_dt; });
+  var case_opening_dt_dimGroup = case_opening_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var case_closing_dt_dimGroup = case_closing_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var created_on_dimGroup = created_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var modified_on_dimGroup = modified_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var sg_arrival_date_dimGroup = sg_arrival_date_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var start_working_dt_dimGroup = start_working_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
 
-    // dimension by full date
-    var dateDimension = cf.dimension(function (d) {
-        return d.dd;
-    });
+  var relg_code_dim = cf.dimension(function (d) { return d.relg_code; });
+  var martsts_dpdnts_dim = cf.dimension(function (d) { return d.martsts_dpdnts; });
+  var sg_stay_total_days_dim = cf.dimension(function (d) { var r = d.sg_stay_total_days / 365.0; return r>4.5 ? 4.5:r; });
+  var agency_nm_dim = cf.dimension(function (d) { return d.agency_nm; });
+  var relg_code_dimGroup = relg_code_dim.group();
+  var martsts_dpdnts_dimGroup = martsts_dpdnts_dim.group();
+  var sg_stay_total_days_dimGroup = sg_stay_total_days_dim.group();
+  var agency_nm_dimGroup = agency_nm_dim.group();
 
-    // dimension by month
-    var moveMonths = cf.dimension(function (d) {
-        return d.month;
-    });
-    // group by total movement within month
-    var monthlyMoveGroup = moveMonths.group().reduceSum(function (d) {
-        return Math.abs(d.close - d.open);
-    });
-    // group by total volume within move, and scale down result
-    var volumeByMonthGroup = moveMonths.group().reduceSum(function (d) {
-        return d.volume / 500000;
-    });
-    var indexAvgByMonthGroup = moveMonths.group().reduce(
-        function (p, v) {
-            ++p.days;
-            p.total += (v.open + v.close) / 2;
-            p.avg = Math.round(p.total / p.days);
-            return p;
-        },
-        function (p, v) {
-            --p.days;
-            p.total -= (v.open + v.close) / 2;
-            p.avg = p.days ? Math.round(p.total / p.days) : 0;
-            return p;
-        },
-        function () {
-            return {days: 0, total: 0, avg: 0};
-        }
-    );
+  var industry_dim = cf.dimension(function (d) {return d.indsttp_code; });
+  var industry_dimGroup = industry_dim.group();
 
-    // create categorical dimension
-    var gainOrLoss = cf.dimension(function (d) {
-        return d.open > d.close ? 'Loss' : 'Gain';
-    });
-    // produce counts records in the dimension
-    var gainOrLossGroup = gainOrLoss.group();
+  var worker_tp_dim = cf.dimension(function (d) { return d.worker_tp; });
+  var gender_dim = cf.dimension(function (d) { return d.gender; });
+  var edulvl_code_dim = cf.dimension(function (d) { return d.edulvl_code; });
+  var marists_code_dim = cf.dimension(function (d) { return d.marists_code; });
+  var natl_code_dim = cf.dimension(function (d) { return d.natl_code; });
+  var casests_code_dim = cf.dimension(function (d) { return d.casests_code; });
+  var worker_tp_dimGroup = worker_tp_dim.group();
+  var gender_dimGroup = gender_dim.group();
+  var edulvl_code_dimGroup = edulvl_code_dim.group();
+  var marists_code_dimGroup = marists_code_dim.group();
+  var natl_code_dimGroup = natl_code_dim.group();
+  var casests_code_dimGroup = casests_code_dim.group();
 
-    // determine a histogram of percent changes
-    var fluctuation = cf.dimension(function (d) {
-        return Math.round((d.close - d.open) / d.open * 100);
-    });
-    var fluctuationGroup = fluctuation.group();
+  var total_sal_pm_domestic_dim = cf.dimension(function(e){
+  	var d = e.total_sal_pm_domestic;
+  	if (!isFinite(d)) return d;
+  	//if (d < 0) return "< 0";
+  	if (d == 0) return "0";
+  	if (d < 100) return "" + (100-99) + " - " + (100);
+  	if (d < 200) return "" + (200-99) + " - " + (200);
+  	if (d < 300) return "" + (300-99) + " - " + (300);
+  	if (d < 400) return "" + (400-99) + " - " + (400);
+  	if (d < 500) return "" + (500-99) + " - " + (500);
+  	else return "> 500";
+  });
+  var total_sal_pm_domestic_dimGroup = total_sal_pm_domestic_dim.group();
+  var total_sal_pm_domestic_names = ["0", "" + (100-99) + " - " + (100), "" + (200-99) + " - " + (200), "" + (300-99) + " - " + (300), "" + (400-99) + " - " + (400), "" + (500-99) + " - " + (500), "> 500"];
 
-    // summerize volume by quarter
-    var quarter = cf.dimension(function (d) {
-        var month = d.dd.getMonth();
-        if (month <= 2) {
-            return 'Q1';
-        } else if (month > 2 && month <= 5) {
-            return 'Q2';
-        } else if (month > 5 && month <= 8) {
-            return 'Q3';
-        } else {
-            return 'Q4';
-        }
-    });
-    var quarterGroup = quarter.group().reduceSum(function (d) {
-        return d.volume;
-    });
+  var abuse_dim = cf.dimension(function (d) {
+  	if (d.physical_abuse_tick == "Y") return "physical_abuse";
+  	if (d.emotional_abuse_tick == "Y") return "emotional_abuse";
+  	if (d.sexual_abuse_tick == "Y") return "sexual_abuse";
+  	if (d.illegal_deploy_tick == "Y") return "illegal_deploy";
+  	if (d.overwork_tick == "Y") return "overwork";
+  	if (d.dismissed_from_job_tick == "Y") return "dismissed_from_job";
+  	if (d.insufficient_food_tick == "Y") return "insufficient_food";
+  	if (d.poor_living_cond_tick == "Y") return "poor_living_cond";
+  	if (d.medical_related_tick == "Y") return "medical_related";
+  	if (d.safety_at_workplace_tick == "Y") return "safety_at_workplace";
+  	if (d.salary_no_pay_tick == "Y") return "salary_no_pay";
+  	if (d.withheld_wages_tick == "Y") return "withheld_wages";
+  	if (d.deduction_from_wages_tick == "Y") return "deduction_from_wages";
+  	if (d.issues_with_agent_tick == "Y") return "issues_with_agent";
+  	if (d.other_tick == "Y") return "other";
+  	return "none";
+  });
+  var abuse_dimGroup = abuse_dim.group();
 
-    // counts per weekday
-    var dayOfWeek = cf.dimension(function (d) {
-        var day = d.dd.getDay();
-        var name = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        return day + '.' + name[day];
-    });
-    var dayOfWeekGroup = dayOfWeek.group();
+  var age_dim = cf.dimension(function (d) { return isFinite(d.birth_dt) ? 2015 - parseInt(d.birth_dt) : null; });
+  var age_dimGroup = age_dim.group(function (d) {
+  		return isFinite(d) ? Math.round(d/5)*5 : null;
+  	});
 
-    //### Define Chart Attributes
-    //Define chart attributes using fluent methods. See the
-    // [dc API Reference](https://github.com/dc-js/dc.js/blob/master/web/docs/api-latest.md) for more information
-    //
+  var stay_duration_dim = cf.dimension(function(e){
+  	var d = Math.round(e.sg_stay_duration / 30);
 
-    //#### Bubble Chart
-    //Create a bubble chart and use the given css selector as anchor. You can also specify
-    //an optional chart group for this chart to be scoped within. When a chart belongs
-    //to a specific group then any interaction with such chart will only trigger redraw
-    //on other charts within the same chart group.
-    /* dc.bubbleChart('#yearly-bubble-chart', 'chartGroup') */
-    yearlyBubbleChart
-        .width($(yearlyBubbleChart.root()[0]).parent().width()) // (optional) define chart width, :default = 200
-        .height(250)  // (optional) define chart height, :default = 200
-        .transitionDuration(1500) // (optional) define chart transition duration, :default = 750
-        .margins({top: 10, right: 50, bottom: 30, left: 40})
-        .dimension(yearlyDimension)
-        //Bubble chart expect the groups are reduced to multiple values which would then be used
-        //to generate x, y, and radius for each key (bubble) in the group
-        .group(yearlyPerformanceGroup)
-        .colors(colorbrewer.RdYlGn[9]) // (optional) define color function or array for bubbles
-        .colorDomain([-500, 500]) //(optional) define color domain to match your data domain if you want to bind data or
-                                  //color
-        //##### Accessors
-        //Accessor functions are applied to each value returned by the grouping
-        //
-        //* `.colorAccessor` The returned value will be mapped to an internal scale to determine a fill color
-        //* `.keyAccessor` Identifies the `X` value that will be applied against the `.x()` to identify pixel location
-        //* `.valueAccessor` Identifies the `Y` value that will be applied agains the `.y()` to identify pixel location
-        //* `.radiusValueAccessor` Identifies the value that will be applied agains the `.r()` determine radius size,
-        //*     by default this maps linearly to [0,100]
-        .colorAccessor(function (d) {
-            return d.value.absGain;
-        })
-        .keyAccessor(function (p) {
-            return p.value.absGain;
-        })
-        .valueAccessor(function (p) {
-            return p.value.percentageGain;
-        })
-        .radiusValueAccessor(function (p) {
-            return p.value.fluctuationPercentage;
-        })
-        .maxBubbleRelativeSize(0.3)
-        .x(d3.scale.linear().domain([-2500, 2500]))
-        .y(d3.scale.linear().domain([-100, 100]))
-        .r(d3.scale.linear().domain([0, 4000]))
-        //##### Elastic Scaling
-        //`.elasticX` and `.elasticX` determine whether the chart should rescale each axis to fit data.
-        //The `.yAxisPadding` and `.xAxisPadding` add padding to data above and below their max values in the same unit
-        //domains as the Accessors.
-        .elasticY(true)
-        .elasticX(true)
-        .yAxisPadding(100)
-        .xAxisPadding(500)
-        .renderHorizontalGridLines(true) // (optional) render horizontal grid lines, :default=false
-        .renderVerticalGridLines(true) // (optional) render vertical grid lines, :default=false
-        .xAxisLabel('Index Gain') // (optional) render an axis label below the x axis
-        .yAxisLabel('Index Gain %') // (optional) render a vertical axis lable left of the y axis
-        //#### Labels and  Titles
-        //Labels are displaed on the chart for each bubble. Titles displayed on mouseover.
-        .renderLabel(true) // (optional) whether chart should render labels, :default = true
-        .label(function (p) {
-            return p.key;
-        })
-        .renderTitle(true) // (optional) whether chart should render titles, :default = false
-        .title(function (p) {
-            return [
-                p.key,
-                'Index Gain: ' + numberFormat(p.value.absGain),
-                'Index Gain in Percentage: ' + numberFormat(p.value.percentageGain) + '%',
-                'Fluctuation / Index Ratio: ' + numberFormat(p.value.fluctuationPercentage) + '%'
-            ].join('\n');
-        })
-        //#### Customize Axis
-        //Set a custom tick format. Note `.yAxis()` returns an axis object, so any additional method chaining applies
-        //to the axis, not the chart.
-        .yAxis().tickFormat(function (v) {
-            return v + '%';
-        });
+  	if (!isFinite(d) || isNaN(d)) return "NA";
+  	if (d <= 12) return d.toString();
+  	else return "12+";
+  });
+  var stay_duration_dimGroup = stay_duration_dim.group()
+  var stay_duration_name = ["NA", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12+"];
 
-    // #### Pie/Donut Chart
-    // Create a pie chart and use the given css selector as anchor. You can also specify
-    // an optional chart group for this chart to be scoped within. When a chart belongs
-    // to a specific group then any interaction with such chart will only trigger redraw
-    // on other charts within the same chart group.
+  var non_domestic_salary_dim = cf.dimension(function(e){
+  	var d = Math.round(e.basic_salary_in_SGD_hour);
 
-    gainOrLossChart
-        .width(180) // (optional) define chart width, :default = 200
-        .height(180) // (optional) define chart height, :default = 200
-        .radius(80) // define pie radius
-        .dimension(gainOrLoss) // set dimension
-        .group(gainOrLossGroup) // set group
-        /* (optional) by default pie chart will use group.key as its label
-         * but you can overwrite it with a closure */
-        .label(function (d) {
-            if (gainOrLossChart.hasFilter() && !gainOrLossChart.hasFilter(d.key)) {
-                return d.key + '(0%)';
-            }
-            var label = d.key;
-            if (all.value()) {
-                label += '(' + Math.floor(d.value / all.value() * 100) + '%)';
-            }
-            return label;
-        }) 
-        /*
-        // (optional) whether chart should render labels, :default = true
-        .renderLabel(true)
-        // (optional) if inner radius is used then a donut chart will be generated instead of pie chart
-        .innerRadius(40)
-        // (optional) define chart transition duration, :default = 350
-        .transitionDuration(500)
-        // (optional) define color array for slices
-        .colors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
-        // (optional) define color domain to match your data domain if you want to bind data or color
-        .colorDomain([-1750, 1644])
-        // (optional) define color value accessor
-        .colorAccessor(function(d, i){return d.value;})
-        */;
+  	if (!isFinite(d) || isNaN(d)) return "NA";
+  	if (d <= 10) return d.toString()
+  	else return "10+";
+  });
+  var non_domestic_salary_dimGroup = non_domestic_salary_dim.group()
+  var non_domestic_salary_name = ["NA", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"];
 
-    quarterChart.width(180)
-        .height(180)
-        .radius(80)
-        .innerRadius(30)
-        .dimension(quarter)
-        .group(quarterGroup);
+  var day_off_per_mth_dim = cf.dimension(function(d) { return d.day_off_per_mth; });
+  var day_off_per_mth_dimGroup = day_off_per_mth_dim.group();
 
-    //#### Row Chart
-    dayOfWeekChart.width(180)
-        .height(180)
-        .margins({top: 20, left: 10, right: 10, bottom: 20})
-        .group(dayOfWeekGroup)
-        .dimension(dayOfWeek)
-        // assign colors to each value in the x scale domain
-        //.ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
-        .label(function (d) {
-            return d.key.split('.')[1];
-        })
-        // title sets the row text
-        .title(function (d) {
-            return d.value;
-        })
-        .elasticX(true)
-        .xAxis().ticks(4);
+  worker_tpChart.dimension(worker_tp_dim).group(worker_tp_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(worker_tpChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  genderChart.dimension(gender_dim).group(gender_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(genderChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  edulvl_codeChart.dimension(edulvl_code_dim).group(edulvl_code_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(edulvl_codeChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  edulvl_codeChart.data(function(group){
+  	return group.top(5);
+  });
+  marists_codeChart.dimension(marists_code_dim).group(marists_code_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(marists_codeChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  marists_codeChart.data(function(group){
+  	return group.top(5);
+  });
 
-    //#### Bar Chart
-    // Create a bar chart and use the given css selector as anchor. You can also specify
-    // an optional chart group for this chart to be scoped within. When a chart belongs
-    // to a specific group then any interaction with such chart will only trigger redraw
-    // on other charts within the same chart group.
-    /* dc.barChart('#volume-month-chart') */
-    fluctuationChart.dimension(fluctuation).group(fluctuationGroup)
-        .margins({top: 10, right: 10, bottom: 30, left: 30})
-        .width($(fluctuationChart.root()[0]).parent().width())
-        .height(180)
-        .elasticY(true)
-        // (optional) whether bar should be center to its x value. Not needed for ordinal chart, :default=false
-        .centerBar(true)
-        // (optional) set gap between bars manually in px, :default=2
-        .gap(1)
-        // (optional) set filter brush rounding
-        .round(dc.round.floor)
-        .alwaysUseRounding(true)
-        .x(d3.scale.linear().domain([-25, 25]))
-        .renderHorizontalGridLines(true)
-        // customize the filter displayed in the control span
-        .filterPrinter(function (filters) {
-            var filter = filters[0], s = '';
-            s += numberFormat(filter[0]) + '% -> ' + numberFormat(filter[1]) + '%';
-            return s;
-        });
+  ageChart.dimension(age_dim).group(age_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(ageChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.linear().domain([15,60]))
+      .elasticY(true)
+  	.gap(-30)
+  	.xAxis().ticks(4)
+      ;
 
-    // Customize axis
-    fluctuationChart.xAxis().tickFormat(
-        function (v) { return v + '%'; });
-    fluctuationChart.yAxis().ticks(5);
+  total_sal_pm_domesticChart.dimension(total_sal_pm_domestic_dim).group(total_sal_pm_domestic_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(total_sal_pm_domesticChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(total_sal_pm_domestic_names))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
 
-    //#### Stacked Area Chart
-    //Specify an area chart, by using a line chart with `.renderArea(true)`
-    moveChart
-        .renderArea(true)
-        .width($(moveChart.root()[0]).parent().width())
-        .height(200)
-        .transitionDuration(1000)
-        .margins({top: 30, right: 50, bottom: 25, left: 40})
-        .dimension(moveMonths)
-        .mouseZoomable(true)
-        // Specify a range chart to link the brush extent of the range with the zoom focue of the current chart.
-        .rangeChart(volumeChart)
-        .x(d3.time.scale().domain([new Date(1985, 0, 1), new Date(2012, 11, 31)]))
-        .round(d3.time.month.round)
-        .xUnits(d3.time.months)
-        .elasticY(true)
-        .renderHorizontalGridLines(true)
-        .legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
-        .brushOn(false)
-        // Add the base layer of the stack with group. The second parameter specifies a series name for use in the
-        // legend
-        // The `.valueAccessor` will be used for the base layer
-        .group(indexAvgByMonthGroup, 'Monthly Index Average')
-        .valueAccessor(function (d) {
-            return d.value.avg;
-        })
-        // stack additional layers with `.stack`. The first paramenter is a new group.
-        // The second parameter is the series name. The third is a value accessor.
-        .stack(monthlyMoveGroup, 'Monthly Index Move', function (d) {
-            return d.value;
-        })
-        // title can be called by any stack layer.
-        .title(function (d) {
-            var value = d.value.avg ? d.value.avg : d.value;
-            if (isNaN(value)) {
-                value = 0;
-            }
-            return dateFormat(d.key) + '\n' + numberFormat(value);
-        });
+  relg_codeChart.dimension(relg_code_dim).group(relg_code_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(relg_codeChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  relg_codeChart.data(function(group){
+  	return group.top(5);
+  });
+  martsts_dpdntsChart.dimension(martsts_dpdnts_dim).group(martsts_dpdnts_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(martsts_dpdntsChart.root()[0]).parent().width())
+  	.height(200)
+  	//.gap(70)
+  	.x(d3.scale.linear().domain([0,5]))
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+  sg_stay_total_daysChart.dimension(sg_stay_total_days_dim).group(sg_stay_total_days_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(sg_stay_total_daysChart.root()[0]).parent().width())
+  	.height(200)
+  	.gap(70)
+  	.x(d3.scale.linear().domain([0,5]))
+      .elasticY(true)
+      ;
+  agency_nmChart.dimension(agency_nm_dim).group(agency_nm_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(agency_nmChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  agency_nmChart.data(function(group){
+  	return group.top(5);
+  });
 
-    volumeChart.width($(volumeChart.root()[0]).parent().width())
-        .height(40)
-        .margins({top: 0, right: 50, bottom: 20, left: 40})
-        .dimension(moveMonths)
-        .group(volumeByMonthGroup)
-        .centerBar(true)
-        .gap(1)
-        .x(d3.time.scale().domain([new Date(1985, 0, 1), new Date(2012, 11, 31)]))
-        .round(d3.time.month.round)
-        .alwaysUseRounding(true)
-        .xUnits(d3.time.months);
+  natl_codeChart.dimension(natl_code_dim).group(natl_code_dimGroup)
+  	//.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(natl_codeChart.root()[0]).parent().width())
+  	.height(400)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  natl_codeChart.data(function(group){
+  	return group.top(8);
+  });
 
-    /*
-    //#### Data Count
-    // Create a data count widget and use the given css selector as anchor. You can also specify
-    // an optional chart group for this chart to be scoped within. When a chart belongs
-    // to a specific group then any interaction with such chart will only trigger redraw
-    // on other charts within the same chart group.
-    <div id='data-count'>
-        <span class='filter-count'></span> selected out of <span class='total-count'></span> records
-    </div>
-    */
-    dc.dataCount('.dc-data-count')
-        .dimension(cf)
-        .group(all)
-        // (optional) html, for setting different html for some records and all records.
-        // .html replaces everything in the anchor with the html given using the following function.
-        // %filter-count and %total-count are replaced with the values obtained.
-        .html({
-            some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-                ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
-            all:'All records selected. Please click on the graph to apply filters.'
-        });
-      
+  casests_codeChart.dimension(casests_code_dim).group(casests_code_dimGroup)
+  	//.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(casests_codeChart.root()[0]).parent().width())
+  	.height(400)
+  	.elasticX(true)
+  	.gap(1)
+  	.xAxis().ticks(4)
+      ;
+  casests_codeChart.data(function(group){
+  	return group.top(8);
+  });
 
-    /*
-    //#### Data Table
-    // Create a data table widget and use the given css selector as anchor. You can also specify
-    // an optional chart group for this chart to be scoped within. When a chart belongs
-    // to a specific group then any interaction with such chart will only trigger redraw
-    // on other charts within the same chart group.
-    <!-- anchor div for data table -->
-    <div id='data-table'>
-        <!-- create a custom header -->
-        <div class='header'>
-            <span>Date</span>
-            <span>Open</span>
-            <span>Close</span>
-            <span>Change</span>
-            <span>Volume</span>
-        </div>
-        <!-- data rows will filled in here -->
-    </div>
-    */
-    dc.dataTable('.dc-data-table')
-        .dimension(dateDimension)
-        // data table does not use crossfilter group but rather a closure
-        // as a grouping function
-        .group(function (d) {
-            var format = d3.format('02d');
-            return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1));
-        })
-        .size(10) // (optional) max number of records to be shown, :default = 25
-        // There are several ways to specify the columns; see the data-table documentation.
-        // This code demonstrates generating the column header automatically based on the columns.
-        .columns([
-            'date',    // d['date'], ie, a field accessor; capitalized automatically
-            'open',    // ...
-            'close',   // ...
-            {
-                label: 'Change', // desired format of column name 'Change' when used as a label with a function.
-                format: function (d) {
-                    return numberFormat(d.close - d.open);
-                }
-            },
-            'volume'   // d['volume'], ie, a field accessor; capitalized automatically
-        ])
+  abuseChart.dimension(abuse_dim).group(abuse_dimGroup)
+  	//.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(abuseChart.root()[0]).parent().width())
+  	.height(400)
+  	.elasticX(true)
+  	.gap(1)
+  	.xAxis().ticks(4)
+      ;
+  abuseChart.data(function(group){
+  	return group.top(8);
+  });
 
-        // (optional) sort using the given field, :default = function(d){return d;}
-        .sortBy(function (d) {
-            return d.dd;
-        })
-        // (optional) sort order, :default ascending
-        .order(d3.ascending)
-        // (optional) custom renderlet to post-process chart using D3
-        .renderlet(function (table) {
-            table.selectAll('.dc-table-group').classed('info', true);
-        });
+  case_opening_dtChart.dimension(case_opening_dt_dim).group(case_opening_dt_dimGroup)
+  	.width($(case_opening_dtChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
+  case_closing_dtChart.dimension(case_closing_dt_dim).group(case_closing_dt_dimGroup)
+  	.width($(case_closing_dtChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
+  created_onChart.dimension(created_on_dim).group(created_on_dimGroup)
+  	.width($(created_onChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
+  modified_onChart.dimension(modified_on_dim).group(modified_on_dimGroup)
+  	.width($(modified_onChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
+  sg_arrival_dateChart.dimension(sg_arrival_date_dim).group(sg_arrival_date_dimGroup)
+  	.width($(sg_arrival_dateChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
+  start_working_dtChart.dimension(start_working_dt_dim).group(start_working_dt_dimGroup)
+  	.width($(start_working_dtChart.root()[0]).parent().width())
+  	.height(150)
+      .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
+      .round(d3.time.month.round)
+      .xUnits(d3.time.months)
+      .elasticY(true)
+      ;
 
-    /*
-    //#### Geo Choropleth Chart
-    //Create a choropleth chart and use the given css selector as anchor. You can also specify
-    //an optional chart group for this chart to be scoped within. When a chart belongs
-    //to a specific group then any interaction with such chart will only trigger redraw
-    //on other charts within the same chart group.
-    dc.geoChoroplethChart('#us-chart')
-        .width(990) // (optional) define chart width, :default = 200
-        .height(500) // (optional) define chart height, :default = 200
-        .transitionDuration(1000) // (optional) define chart transition duration, :default = 1000
-        .dimension(states) // set crossfilter dimension, dimension key should match the name retrieved in geo json layer
-        .group(stateRaisedSum) // set crossfilter group
-        // (optional) define color function or array for bubbles
-        .colors(['#ccc', '#E2F2FF','#C4E4FF','#9ED2FF','#81C5FF','#6BBAFF','#51AEFF','#36A2FF','#1E96FF','#0089FF',
-            '#0061B5'])
-        // (optional) define color domain to match your data domain if you want to bind data or color
-        .colorDomain([-5, 200])
-        // (optional) define color value accessor
-        .colorAccessor(function(d, i){return d.value;})
-        // Project the given geojson. You can call this function mutliple times with different geojson feed to generate
-        // multiple layers of geo paths.
-        //
-        // * 1st param - geo json data
-        // * 2nd param - name of the layer which will be used to generate css class
-        // * 3rd param - (optional) a function used to generate key for geo path, it should match the dimension key
-        // in order for the coloring to work properly
-        .overlayGeoJson(statesJson.features, 'state', function(d) {
-            return d.properties.name;
-        })
-        // (optional) closure to generate title for path, :default = d.key + ': ' + d.value
-        .title(function(d) {
-            return 'State: ' + d.key + '\nTotal Amount Raised: ' + numberFormat(d.value ? d.value : 0) + 'M';
-        });
-        //#### Bubble Overlay Chart
-        // Create a overlay bubble chart and use the given css selector as anchor. You can also specify
-        // an optional chart group for this chart to be scoped within. When a chart belongs
-        // to a specific group then any interaction with such chart will only trigger redraw
-        // on other charts within the same chart group.
-        dc.bubbleOverlay('#bubble-overlay')
-            // bubble overlay chart does not generate it's own svg element but rather resue an existing
-            // svg to generate it's overlay layer
-            .svg(d3.select('#bubble-overlay svg'))
-            .width(990) // (optional) define chart width, :default = 200
-            .height(500) // (optional) define chart height, :default = 200
-            .transitionDuration(1000) // (optional) define chart transition duration, :default = 1000
-            .dimension(states) // set crossfilter dimension, dimension key should match the name retrieved in geo json
-                layer
-            .group(stateRaisedSum) // set crossfilter group
-            // closure used to retrieve x value from multi-value group
-            .keyAccessor(function(p) {return p.value.absGain;})
-            // closure used to retrieve y value from multi-value group
-            .valueAccessor(function(p) {return p.value.percentageGain;})
-            // (optional) define color function or array for bubbles
-            .colors(['#ccc', '#E2F2FF','#C4E4FF','#9ED2FF','#81C5FF','#6BBAFF','#51AEFF','#36A2FF','#1E96FF','#0089FF',
-                '#0061B5'])
-            // (optional) define color domain to match your data domain if you want to bind data or color
-            .colorDomain([-5, 200])
-            // (optional) define color value accessor
-            .colorAccessor(function(d, i){return d.value;})
-            // closure used to retrieve radius value from multi-value group
-            .radiusValueAccessor(function(p) {return p.value.fluctuationPercentage;})
-            // set radius scale
-            .r(d3.scale.linear().domain([0, 3]))
-            // (optional) whether chart should render labels, :default = true
-            .renderLabel(true)
-            // (optional) closure to generate label per bubble, :default = group.key
-            .label(function(p) {return p.key.getFullYear();})
-            // (optional) whether chart should render titles, :default = false
-            .renderTitle(true)
-            // (optional) closure to generate title per bubble, :default = d.key + ': ' + d.value
-            .title(function(d) {
-                return 'Title: ' + d.key;
-            })
-            // add data point to it's layer dimension key that matches point name will be used to
-            // generate bubble. multiple data points can be added to bubble overlay to generate
-            // multiple bubbles
-            .point('California', 100, 120)
-            .point('Colorado', 300, 120)
-            // (optional) setting debug flag to true will generate a transparent layer on top of
-            // bubble overlay which can be used to obtain relative x,y coordinate for specific
-            // data point, :default = false
-            .debug(true);
-    */
+  industryChart.dimension(industry_dim).group(industry_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(industry_dimGroup))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+
+  stay_durationChart.dimension(stay_duration_dim).group(stay_duration_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(stay_duration_name))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+
+  non_domestic_salaryChart.dimension(non_domestic_salary_dim).group(non_domestic_salary_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(non_domestic_salary_name))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+
+  day_off_per_mthChart.dimension(day_off_per_mth_dim).group(day_off_per_mth_dimGroup)
+  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(day_off_per_mth_dimGroup))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
 
     //#### Rendering
     //simply call renderAll() to render all charts on the page
@@ -579,15 +415,4 @@ d3.csv('data/demo.csv', function (rows) {
     // or you can choose to redraw only those charts associated with a specific chart group
     dc.redrawAll('group');
     */
-});
-
-
-//#### Versions
-//Determine the current version of dc with `dc.version`
-d3.selectAll('#version').text(dc.version);
-
-// Determine latest stable version in the repo via Github API
-d3.json('https://api.github.com/repos/dc-js/dc.js/releases/latest', function (error, latestRelease) {
-    /*jshint camelcase: false */
-    d3.selectAll('#latest').text(latestRelease.tag_name);
 });

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Dashi | home-dashi</title>
+    <title>HOME | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     
     <!-- build:css(.) styles/vendor.css -->
@@ -56,7 +56,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo"><b>Dashi</b></a>
+        <a href="index2.html" class="logo"><b>HOME</b></a>
 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -112,8 +112,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Page Header
-            <small>Optional description</small>
+            HOME Data Visualizations
+            <small>DatakindSG | DataDive Apr 2015</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -124,85 +124,323 @@
         <!-- Main content -->
         <section class="content">          
           <!-- Your Page Content Here -->
-          <div class="row">
-            <section class="col-lg-12 col-xs-12 connectedSortable">
+          
+          <div class="row"> <!-- Row 1 -->
+            <section class="col-lg-3 col-xs-3 connectedSortable">
               <div class="box box-success">
                 <div class="box-body">
-                  <div id="yearly-bubble-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Yearly Performance</strong> (radius: fluctuation/index ratio, color: gain/loss)
-                  <a class="reset" href="javascript:yearlyBubbleChart.filterAll();dc.redrawAll();"
-                     style="display: none;">reset</a><br />
+                  <div id="worker_tp-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>worker_tp</strong>
+                    <a class="reset" href="javascript:worker_tpChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
                   </div>
                 </div>
                 <div class="box-footer clearfix no-border" />
               </div>
             </section>
-          </div>
+            
+            <section class="col-lg-3 col-xs-3 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="gender-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Gender</strong>
+                    <a class="reset" href="javascript:genderChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+                  
+            <section class="col-lg-3 col-xs-3 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="edulvl_code-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Education</strong>
+                    <a class="reset" href="javascript:edulvl_codeChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-3 col-xs-3 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="relg_code-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>relg_code<strong>
+                    <a class="reset" href="javascript:relg_codeChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 1 -->
           
-          <div class="row">
+          <div class="row"> <!-- Row 2 -->
             <section class="col-lg-6 col-xs-6 connectedSortable">
               <div class="box box-success">
                 <div class="box-body">
-                  <div id="fluctuation-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Days by Fluctuation(%)</strong> <a class="reset" href="javascript:fluctuationChart.filterAll();dc.redrawAll();" style="display: none;">reset</a><br />
+                  <div id="age-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>age</strong>
+                    <a class="reset" href="javascript:ageChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
                   </div>
                 </div>
                 <div class="box-footer clearfix no-border" />
               </div>
             </section>
             
-            <section class="col-lg-3 col-xs-3 connectedSortable">
+            <section class="col-lg-6 col-xs-6 connectedSortable">
               <div class="box box-success">
                 <div class="box-body">
-                  <div id="day-of-week-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Day of Week</strong> <a class="reset" href="javascript:dayOfWeekChart.filterAll();dc.redrawAll();" style="display: none;">reset</a><br />
+                  <div id="total_sal_pm_domestic-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>total_sal_pm_domestic</strong>
+                    <a class="reset" href="javascript:total_sal_pm_domesticChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
                   </div>
                 </div>
                 <div class="box-footer clearfix no-border" />
               </div>
             </section>
-            
-            <section class="col-lg-3 col-xs-3 connectedSortable">
-              <div class="box box-success">
-                <div class="box-body">
-                  <div id="quarter-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Quarters</strong> <a class="reset" href="javascript:quarterChart.filterAll();dc.redrawAll();" style="display: none;">reset</a><br />
-                  </div>
-                </div>
-                <div class="box-footer clearfix no-border" />
-              </div>
-            </section>
-          </div>
-            
-          <div class="row">
-            <section class="col-lg-3 col-xs-3 connectedSortable">
-              <div class="box box-success">
-                <div class="box-body">
-                  <div id="gain-loss-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Days by Gain/Loss</strong> <a class="reset" href="javascript:gainOrLossChart.filterAll();dc.redrawAll();" style="display: none;">reset</a><br />
-                  </div>
-                </div>
-                <div class="box-footer clearfix no-border" />
-              </div>
-            </section>
-          </div>
+          </div><!-- /Row 2 -->
           
-          <div class="row"> <!--row 3 -->
-            <section class="col-lg-12 col-xs-12 connectedSortable">
+          <div class="row"> <!-- Row 3 -->
+            <section class="col-lg-2 col-xs-2 connectedSortable">
               <div class="box box-success">
                 <div class="box-body">
-                  <div id="monthly-move-chart" class="dc-chart">
-                    <i class="fa fa-inbox"></i> <strong>Monthly Index Abs Move &amp; Volume/500,000 Chart</strong>
-                  <span class="reset" style="display: none;">range: <span class="filter"></span></span>
-                  <a class="reset" href="javascript:moveChart.filterAll();dc.redrawAll();"
-                     style="display: none;">reset</a><br />
+                  <div id="marists_code-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>marists_code</strong>
+                    <a class="reset" href="javascript:marists_codeChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
                   </div>
-                  <div id="monthly-volume-chart" />
                 </div>
                 <div class="box-footer clearfix no-border" />
               </div>
             </section>
-          </div>
+            
+            <section class="col-lg-2 col-xs-2 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="martsts_dpdnts-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>martsts_dpdnts</strong>
+                    <a class="reset" href="javascript:martsts_dpdntsChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+                  
+            <section class="col-lg-4 col-xs-4 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="sg_stay_total_days-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>sg_stay_total_years</strong>
+                    <a class="reset" href="javascript:sg_stay_total_daysChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-4 col-xs-4 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="agency_nm-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>agency_nm<strong>
+                    <a class="reset" href="javascript:agency_nmChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 3 -->
+          
+          <div class="row"> <!-- Row 4 -->
+            <section class="col-lg-4 col-xs-4 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="natl_code-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Nationality</strong>
+                    <a class="reset" href="javascript:natl_codeChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-4 col-xs-4 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="casests_code-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>casests_code</strong>
+                    <a class="reset" href="javascript:casests_codeChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+                  
+            <section class="col-lg-4 col-xs-4 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="abuse-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Abuse</strong>
+                    <a class="reset" href="javascript:abuseChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 4 -->
+          
+          <div class="row"> <!-- Row 5 -->
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="case_opening_dt-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>case_opening_dt</strong>
+                    <a class="reset" href="javascript:case_opening_dtChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="case_closing_dt-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>case_closing_dt</strong>
+                    <a class="reset" href="javascript:case_closing_dtChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 5 -->
+          
+          <div class="row"> <!-- Row 6 -->
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="created_on-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>created_on</strong>
+                    <a class="reset" href="javascript:created_onChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="modified_on-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>modified_on</strong>
+                    <a class="reset" href="javascript:modified_onChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 6 -->
+          
+          <div class="row"> <!-- Row 7 -->
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="sg_arrival_date-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>sg_arrival_date</strong>
+                    <a class="reset" href="javascript:sg_arrival_dateChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="start_working_dt-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>start_working_dt</strong>
+                    <a class="reset" href="javascript:start_working_dtChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 7 -->
+          
+          <div class="row"> <!-- Row 8 -->
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="industry-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Industry</strong>
+                    <a class="reset" href="javascript:industryChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="stay_duration-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Stay duration (months)</strong>
+                    <a class="reset" href="javascript:stay_durationChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 8 -->
+          
+          <div class="row"> <!-- Row 9 -->
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="non_domestic_salary-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Basic salary non-domestic workers (SGD/hour)</strong>
+                    <a class="reset" href="javascript:non_domestic_salaryChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+            
+            <section class="col-lg-6 col-xs-6 connectedSortable">
+              <div class="box box-success">
+                <div class="box-body">
+                  <div id="day_off_per_mth-chart" class="dc-chart">
+                    <i class="fa fa-inbox"></i> <strong>Number of days off per month</strong>
+                    <a class="reset" href="javascript:day_off_per_mthChart.filterAll();dc.redrawAll();"
+                       style="display: none;">reset</a><br />
+                  </div>
+                </div>
+                <div class="box-footer clearfix no-border" />
+              </div>
+            </section>
+          </div><!-- /Row 9 -->
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
