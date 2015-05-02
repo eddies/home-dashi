@@ -222,7 +222,7 @@ d3.csv('data/home.csv', function (rows) {
   });
 
   ageChart.dimension(age_dim).group(age_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(ageChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.linear().domain([15,60]))
@@ -232,7 +232,7 @@ d3.csv('data/home.csv', function (rows) {
       ;
 
   total_sal_pm_domesticChart.dimension(total_sal_pm_domestic_dim).group(total_sal_pm_domestic_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(total_sal_pm_domesticChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(total_sal_pm_domestic_names))
@@ -252,7 +252,7 @@ d3.csv('data/home.csv', function (rows) {
   	return group.top(5);
   });
   martsts_dpdntsChart.dimension(martsts_dpdnts_dim).group(martsts_dpdnts_dimGroup)
-  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(martsts_dpdntsChart.root()[0]).parent().width())
   	.height(200)
   	//.gap(70)
@@ -261,7 +261,7 @@ d3.csv('data/home.csv', function (rows) {
   	.xAxis().ticks(4)
       ;
   sg_stay_total_daysChart.dimension(sg_stay_total_days_dim).group(sg_stay_total_days_dimGroup)
-  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(sg_stay_total_daysChart.root()[0]).parent().width())
   	.height(200)
   	.gap(70)
@@ -323,6 +323,7 @@ d3.csv('data/home.csv', function (rows) {
       .elasticY(true)
       ;
   case_closing_dtChart.dimension(case_closing_dt_dim).group(case_closing_dt_dimGroup)
+    .margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(case_closing_dtChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
@@ -339,6 +340,7 @@ d3.csv('data/home.csv', function (rows) {
       .elasticY(true)
       ;
   modified_onChart.dimension(modified_on_dim).group(modified_on_dimGroup)
+    .margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(modified_onChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
@@ -355,6 +357,7 @@ d3.csv('data/home.csv', function (rows) {
       .elasticY(true)
       ;
   start_working_dtChart.dimension(start_working_dt_dim).group(start_working_dt_dimGroup)
+    .margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(start_working_dtChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
@@ -364,7 +367,7 @@ d3.csv('data/home.csv', function (rows) {
       ;
 
   industryChart.dimension(industry_dim).group(industry_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(industry_dimGroup))
@@ -374,7 +377,7 @@ d3.csv('data/home.csv', function (rows) {
       ;
 
   stay_durationChart.dimension(stay_duration_dim).group(stay_duration_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(stay_duration_name))
@@ -384,7 +387,7 @@ d3.csv('data/home.csv', function (rows) {
       ;
 
   non_domestic_salaryChart.dimension(non_domestic_salary_dim).group(non_domestic_salary_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(non_domestic_salary_name))
@@ -394,7 +397,7 @@ d3.csv('data/home.csv', function (rows) {
       ;
 
   day_off_per_mthChart.dimension(day_off_per_mth_dim).group(day_off_per_mth_dimGroup)
-  	.margins({top: 10, right: 30, bottom: 30, left: 10})
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
   	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(day_off_per_mth_dimGroup))
