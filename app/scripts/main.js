@@ -2,7 +2,7 @@
 'use strict';
 
 /* jshint globalstrict: true */
-/* global dc,d3,crossfilter,colorbrewer */
+/* global dc,d3,crossfilter */
 
 // ### Create Chart Objects
 // Create chart objects assocated with the container elements identified by the 
@@ -68,7 +68,7 @@ d3.csv('data/home.csv', function (rows) {
     /* since its a csv file we need to format the data a bit */
   var dateFormat = d3.time.format('%Y-%m-%d');
   var dateTimeFormat = d3.time.format('%Y-%m-%d %H:%M:%S');
-  var numberFormat = d3.format('.2f');
+  //var numberFormat = d3.format('.2f');
   
   rows.forEach(function (d) {
     d.case_opening_dt = d.case_opening_dt ? dateTimeFormat.parse(d.case_opening_dt) : Infinity;
@@ -91,12 +91,12 @@ d3.csv('data/home.csv', function (rows) {
   var modified_on_dim = cf.dimension(function (d) { return d.modified_on; });
   var sg_arrival_date_dim = cf.dimension(function (d) { return d.sg_arrival_date; });
   var start_working_dt_dim = cf.dimension(function (d) { return d.start_working_dt; });
-  var case_opening_dt_dimGroup = case_opening_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
-  var case_closing_dt_dimGroup = case_closing_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
-  var created_on_dimGroup = created_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
-  var modified_on_dimGroup = modified_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
-  var sg_arrival_date_dimGroup = sg_arrival_date_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
-  var start_working_dt_dimGroup = start_working_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : "NaN"; });
+  var case_opening_dt_dimGroup = case_opening_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
+  var case_closing_dt_dimGroup = case_closing_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
+  var created_on_dimGroup = created_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
+  var modified_on_dimGroup = modified_on_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
+  var sg_arrival_date_dimGroup = sg_arrival_date_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
+  var start_working_dt_dimGroup = start_working_dt_dim.group(function (d) { return isFinite(d) ? d3.time.month(d) : 'NaN'; });
 
   var relg_code_dim = cf.dimension(function (d) { return d.relg_code; });
   var martsts_dpdnts_dim = cf.dimension(function (d) { return d.martsts_dpdnts; });
@@ -125,36 +125,42 @@ d3.csv('data/home.csv', function (rows) {
 
   var total_sal_pm_domestic_dim = cf.dimension(function(e){
   	var d = e.total_sal_pm_domestic;
-  	if (!isFinite(d)) return d;
-  	//if (d < 0) return "< 0";
-  	if (d == 0) return "0";
-  	if (d < 100) return "" + (100-99) + " - " + (100);
-  	if (d < 200) return "" + (200-99) + " - " + (200);
-  	if (d < 300) return "" + (300-99) + " - " + (300);
-  	if (d < 400) return "" + (400-99) + " - " + (400);
-  	if (d < 500) return "" + (500-99) + " - " + (500);
-  	else return "> 500";
+  	if (!isFinite(d)) { return d; }
+  	//if (d < 0) return '< 0';
+  	if (d === 0) { return '0'; }
+  	if (d < 100) { return '' + (100-99) + ' - ' + (100); }
+  	if (d < 200) { return '' + (200-99) + ' - ' + (200); }
+  	if (d < 300) { return '' + (300-99) + ' - ' + (300); }
+  	if (d < 400) { return '' + (400-99) + ' - ' + (400); }
+  	if (d < 500) {
+      return '' + (500-99) + ' - ' + (500);
+    } else {
+      return '> 500';
+    }
   });
   var total_sal_pm_domestic_dimGroup = total_sal_pm_domestic_dim.group();
-  var total_sal_pm_domestic_names = ["0", "" + (100-99) + " - " + (100), "" + (200-99) + " - " + (200), "" + (300-99) + " - " + (300), "" + (400-99) + " - " + (400), "" + (500-99) + " - " + (500), "> 500"];
+  var total_sal_pm_domestic_names = ['0', '' + (100-99) + '' - '' + (100), '' + 
+                                    (200-99) + ' - ' + (200), '' + (300-99) + 
+                                    ' - ' + (300), '' + (400-99) + ' - ' + 
+                                    (400), '' + (500-99) + ' - ' + (500), '> 500'];
 
   var abuse_dim = cf.dimension(function (d) {
-  	if (d.physical_abuse_tick == "Y") return "physical_abuse";
-  	if (d.emotional_abuse_tick == "Y") return "emotional_abuse";
-  	if (d.sexual_abuse_tick == "Y") return "sexual_abuse";
-  	if (d.illegal_deploy_tick == "Y") return "illegal_deploy";
-  	if (d.overwork_tick == "Y") return "overwork";
-  	if (d.dismissed_from_job_tick == "Y") return "dismissed_from_job";
-  	if (d.insufficient_food_tick == "Y") return "insufficient_food";
-  	if (d.poor_living_cond_tick == "Y") return "poor_living_cond";
-  	if (d.medical_related_tick == "Y") return "medical_related";
-  	if (d.safety_at_workplace_tick == "Y") return "safety_at_workplace";
-  	if (d.salary_no_pay_tick == "Y") return "salary_no_pay";
-  	if (d.withheld_wages_tick == "Y") return "withheld_wages";
-  	if (d.deduction_from_wages_tick == "Y") return "deduction_from_wages";
-  	if (d.issues_with_agent_tick == "Y") return "issues_with_agent";
-  	if (d.other_tick == "Y") return "other";
-  	return "none";
+  	if (d.physical_abuse_tick === 'Y') { return 'physical_abuse'; }
+  	if (d.emotional_abuse_tick === 'Y') { return 'emotional_abuse'; }
+  	if (d.sexual_abuse_tick === 'Y') { return 'sexual_abuse'; }
+  	if (d.illegal_deploy_tick === 'Y') { return 'illegal_deploy'; }
+  	if (d.overwork_tick === 'Y') { return 'overwork'; }
+  	if (d.dismissed_from_job_tick === 'Y') { return 'dismissed_from_job'; }
+  	if (d.insufficient_food_tick === 'Y') { return 'insufficient_food'; }
+  	if (d.poor_living_cond_tick === 'Y') { return 'poor_living_cond'; }
+  	if (d.medical_related_tick === 'Y') { return 'medical_related'; }
+  	if (d.safety_at_workplace_tick === 'Y') { return 'safety_at_workplace'; }
+  	if (d.salary_no_pay_tick === 'Y') { return 'salary_no_pay'; }
+  	if (d.withheld_wages_tick === 'Y') { return 'withheld_wages'; }
+  	if (d.deduction_from_wages_tick === 'Y') { return 'deduction_from_wages'; }
+  	if (d.issues_with_agent_tick === 'Y') { return 'issues_with_agent'; }
+  	if (d.other_tick === 'Y') { return 'other'; }
+  	return 'none';
   });
   var abuse_dimGroup = abuse_dim.group();
 
@@ -166,22 +172,28 @@ d3.csv('data/home.csv', function (rows) {
   var stay_duration_dim = cf.dimension(function(e){
   	var d = Math.round(e.sg_stay_duration / 30);
 
-  	if (!isFinite(d) || isNaN(d)) return "NA";
-  	if (d <= 12) return d.toString();
-  	else return "12+";
+  	if (!isFinite(d) || isNaN(d)) { return 'NA'; }
+  	if (d <= 12) {
+      return d.toString();
+    } else {
+      return '12+';
+    }
   });
-  var stay_duration_dimGroup = stay_duration_dim.group()
-  var stay_duration_name = ["NA", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12+"];
+  var stay_duration_dimGroup = stay_duration_dim.group();
+  var stay_duration_name = ['NA', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '12+'];
 
   var non_domestic_salary_dim = cf.dimension(function(e){
   	var d = Math.round(e.basic_salary_in_SGD_hour);
 
-  	if (!isFinite(d) || isNaN(d)) return "NA";
-  	if (d <= 10) return d.toString()
-  	else return "10+";
+  	if (!isFinite(d) || isNaN(d)) { return 'NA'; }
+  	if (d <= 10) {
+      return d.toString();
+  	} else {
+      return '10+';
+    }
   });
-  var non_domestic_salary_dimGroup = non_domestic_salary_dim.group()
-  var non_domestic_salary_name = ["NA", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"];
+  var non_domestic_salary_dimGroup = non_domestic_salary_dim.group();
+  var non_domestic_salary_name = ['NA', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '10+'];
 
   var day_off_per_mth_dim = cf.dimension(function(d) { return d.day_off_per_mth; });
   var day_off_per_mth_dimGroup = day_off_per_mth_dim.group();
@@ -314,6 +326,16 @@ d3.csv('data/home.csv', function (rows) {
   	.height(400)
   	.elasticX(true)
   	.gap(1)
+    .label(function (d) {
+      if (abuseChart.hasFilter() && !abuseChart.hasFilter(d.key)) {
+        return d.key + ' (0%)';
+      }
+      var label = d.key;
+      if (all.value()) {
+        label += ' (' + Math.floor(d.value / all.value() * 100) + '%)';
+      }
+      return label;
+    })
   	.xAxis().ticks(4)
       ;
   abuseChart.data(function(group){
