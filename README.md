@@ -16,7 +16,7 @@ Most Linux users will probably want to use their systems own package manager to 
 Once npm is installed, installing grunt and bower is just:
 
 ```bash
-npm install -g yo bower grunt-cli
+npm install -g bower grunt-cli
 ```
 
 ## Installation
