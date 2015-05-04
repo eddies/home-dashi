@@ -1,29 +1,46 @@
-# dashi: data made delicious
-Dashi is dashboard for data visualizations.
+# home-dashi
+A data dashboard for [HOME](http://home.org.sg/).
 
-## Getting Started
-Presumably you've arrived at this point after having run the [Dashi generator](https://github.com/eddies/generator-dashi) (`yo dashi`).
+## Prerequisites
 
-You might start with running
+ * [npm](https://www.npmjs.com/)
+ * [bower](http://bower.io/)
+ * [grunt](http://gruntjs.com/)
+ 
+The only tricky bit is getting npm installed. npm is installed as part of Node.js. However, instructions for installing Node vary by operating system. 
+
+For example, most Mac or Windows users will probably want to install Node via one of the installers from [nodejs.org](https://nodejs.org/).
+
+Most Linux users will probably want to use their systems own package manager to install Node. Have a look at [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager). As of this writing (2015-05-04), the current version of Node.js is 0.12.2. 
+
+Once npm is installed, installing grunt and bower is just:
+
+```bash
+npm install -g yo bower grunt-cli
+```
+
+## Installation
+### Install  dependencies:
+```bash
+npm install
+bower install
+```
+
+### Add data:
+home-dashi expects the file, `app/data/home.csv`. This is not included in the GitHub repo, for data privacy reasons.
+
+Done!
+
+## Next steps 
+Run a live-reloading server:
 ```bash
 grunt serve
 ```
 
-which will fire up your Dashi app and let you view it in your browser.
-
-Next, you'll probably want to start editing `app/index.html` and `app/main.js`.
-
-If you're using GitHub for your Dashi app, Dashi can publish your app to GitHub pages.
-Just use
+Or, build home-dashi to the dist/ directory, which you can then point your browser to:
+Run a live-reloading server:
 ```bash
-grunt gh-pages
+grunt
 ```
 
-Enjoy!
-
-## What's underneath the hood?
-The dashboard template comes courtesy of [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html). AdminLTE is a MIT-licensed, responsive HTML template, which is itself based on the [Bootstrap 3](http://getbootstrap.com/) framework.
-
-The multidimensional charting comes courtesy of [dc.js](https://dc-js.github.io/dc.js/), an Apache 2.0 licensed JavaScript charting library built on [Crossfilter](https://square.github.io/crossfilter/) and [D3](http://d3js.org/).
-
- 
+If you want to edit your copy of the dashboard, you'll probably want to have a look at `app/index.html` and `app/scripts/main.js`
