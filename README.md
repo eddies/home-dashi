@@ -29,7 +29,7 @@ bower install
 ### Add data:
 home-dashi expects the file, `app/data/home.csv`. This is not included in the GitHub repo, for data privacy reasons.
 
-Done!
+You're done!
 
 ## Next steps 
 Run a live-reloading server:
@@ -37,8 +37,7 @@ Run a live-reloading server:
 grunt serve
 ```
 
-Or, build home-dashi to the dist/ directory, which you can then point your browser to:
-Run a live-reloading server:
+Or, build home-dashi to the `dist/` directory, which you can then point your browser to:
 ```bash
 grunt
 ```
