@@ -164,7 +164,9 @@ d3.csv('data/home.csv', function (rows) {
   });
   var abuse_dimGroup = abuse_dim.group();
 
-  var age_dim = cf.dimension(function (d) { return isFinite(d.birth_dt) ? 2015 - parseInt(d.birth_dt) : null; });
+  var age_dim = cf.dimension(function (d) { 
+      return d.birth_dt !== '' ? 2015 - parseInt(d.birth_dt) : null; 
+  });
   var age_dimGroup = age_dim.group(function (d) {
   		return isFinite(d) ? Math.round(d/5)*5 : null;
   	});
