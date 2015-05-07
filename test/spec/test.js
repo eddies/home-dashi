@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, assert, getAge */
 
 (function () {
   'use strict';

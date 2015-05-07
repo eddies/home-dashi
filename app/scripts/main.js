@@ -458,17 +458,96 @@ d3.csv('data/home.csv', function (rows) {
       .elasticY(true)
   	.xAxis().ticks(4)
       ;
+      
+  /*
+  //#### Data Count
+  // Create a data count widget and use the given css selector as anchor. You can also specify
+  // an optional chart group for this chart to be scoped within. When a chart belongs
+  // to a specific group then any interaction with such chart will only trigger redraw
+  // on other charts within the same chart group.
+  <div id='data-count'>
+      <span class='filter-count'></span> selected out of <span class='total-count'></span> records
+  </div>
+  */
+  dc.dataCount('.dc-data-count')
+    .dimension(cf)
+    .group(all)
+    // (optional) html, for setting different html for some records and all records.
+    // .html replaces everything in the anchor with the html given using the following function.
+    // %filter-count and %total-count are replaced with the values obtained.
+    .html({
+      some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+        ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
+      all:'All records selected. Please click on the graph to apply filters.'
+    });
+    
+  /*
+  //#### Data Table
+  // Create a data table widget and use the given css selector as anchor. You can also specify
+  // an optional chart group for this chart to be scoped within. When a chart belongs
+  // to a specific group then any interaction with such chart will only trigger redraw
+  // on other charts within the same chart group.
+  <!-- anchor div for data table -->
+  <div id='data-table'>
+      <!-- create a custom header -->
+      <div class='header'>
+          <span>Date</span>
+          <span>Open</span>
+          <span>Close</span>
+          <span>Change</span>
+          <span>Volume</span>
+      </div>
+      <!-- data rows will filled in here -->
+  </div>
+  */
+  dc.dataTable('.dc-data-table')
+    .dimension(case_opening_dt_dim)
+    // data table does not use crossfilter group but rather a closure
+    // as a grouping function
+    .group(function (d) {
+      var format = d3.format('02d');
+      return d.case_opening_dt.getFullYear() + '/' + format((d.case_opening_dt.getMonth() + 1));
+    })
+    .size(20) // (optional) max number of records to be shown, :default = 25
+    // There are several ways to specify the columns; see the data-table documentation.
+    // This code demonstrates generating the column header automatically based on the columns.
+    .columns([
+      'date',    // d['date'], ie, a field accessor; capitalized automatically
+      'worker_tp',    // ...
+      'gender',   // ...
+      {
+        label: 'Duration (years)', // desired format of column name 'Change' when used as a label with a function.
+        format: function (d) {
+          var numberFormat = d3.format('.2f');
+          return numberFormat(d.sg_stay_total_days / 365.0);
+        }
+      },
+      'day_off_per_mth',   // d['volume'], ie, a field accessor; capitalized automatically
+      'total_sal_pm_domestic'
+    ])
 
-    //#### Rendering
-    //simply call renderAll() to render all charts on the page
-    dc.renderAll();
-    /*
-    // or you can render charts belong to a specific chart group
-    dc.renderAll('group');
-    // once rendered you can call redrawAll to update charts incrementally when data
-    // change without re-rendering everything
-    dc.redrawAll();
-    // or you can choose to redraw only those charts associated with a specific chart group
-    dc.redrawAll('group');
-    */
+    // (optional) sort using the given field, :default = function(d){return d;}
+    .sortBy(function (d) {
+      return d.case_opening_dt;
+    })
+    // (optional) sort order, :default ascending
+    .order(d3.ascending)
+    // (optional) custom renderlet to post-process chart using D3
+    .renderlet(function (table) {
+      table.selectAll('.dc-table-group').classed('info', true);
+    });
+  
+
+  //#### Rendering
+  //simply call renderAll() to render all charts on the page
+  dc.renderAll();
+  /*
+  // or you can render charts belong to a specific chart group
+  dc.renderAll('group');
+  // once rendered you can call redrawAll to update charts incrementally when data
+  // change without re-rendering everything
+  dc.redrawAll();
+  // or you can choose to redraw only those charts associated with a specific chart group
+  dc.redrawAll('group');
+  */
 });
