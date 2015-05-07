@@ -21,7 +21,8 @@ module.exports = function (grunt) {
   // Configurable paths
   var config = {
     app: 'app',
-    dist: 'dist'
+    dist: 'dist',
+    test: 'test'
   };
 
   // Define the configuration for all the tasks
@@ -98,10 +99,12 @@ module.exports = function (grunt) {
           middleware: function(connect) {
             return [
               connect.static('.tmp'),
-              connect.static('test'),
+              connect.static(config.test),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/fonts', connect.static('./bower_components/bootstrap/dist/fonts')),
-              connect.static(config.app)
+              connect.static(config.app),
+              // Added so we can use /app/scripts/main.js from test/index.html
+              connect().use('/app', connect.static(config.app))
             ];
           }
         }
@@ -216,6 +219,9 @@ module.exports = function (grunt) {
       less: {
         src: ['<%= config.app %>/styles/{,*/}*.less'],
         ignorePath: /(\.\.\/){1,2}bower_components\//
+      },
+      test: {
+        src: ['<%= config.test %>/index.html']
       }
     },
 

@@ -58,14 +58,13 @@ var day_off_per_mthChart = dc.barChart('#day_off_per_mth-chart');
     </div>
 */
 
-// ### Load your data
-// Data can be loaded through regular means with your
-// favorite javascript library, e.g.:
-//   d3.csv('data.csv', function(data) {...};
-//   d3.json('data.json', function(data) {...};
-//   jQuery.getJson('data.json', function(data){...});
-d3.csv('data/home.csv', function (rows) {
-    /* since its a csv file we need to format the data a bit */
+
+
+
+/**
+ * @param rows - An array of of objects representing the parsed rows of d3.csv.
+ */
+function parseDateTimes(rows) {
   var dateFormat = d3.time.format('%Y-%m-%d');
   var dateTimeFormat = d3.time.format('%Y-%m-%d %H:%M:%S');
   //var numberFormat = d3.format('.2f');
@@ -78,6 +77,30 @@ d3.csv('data/home.csv', function (rows) {
     d.sg_arrival_date = d.sg_arrival_date ? dateTimeFormat.parse(d.sg_arrival_date) : Infinity;
     d.start_working_dt = d.start_working_dt ? dateFormat.parse(d.start_working_dt) : Infinity;
   });
+}
+
+/**
+ * Returns the age given the birth year (e.g. 1991).
+ * Returns null if birth_year is undefined, null, empty string, or 0.
+ * 
+ * @param {string} birth year - year of birth (e.g. "1991")
+ */
+function getAge(birth_year) {
+  if (!!birth_year) {
+    return new Date().getFullYear() - parseInt(birth_year);
+  } else {
+    return null;
+  }
+}
+
+// ### Load your data
+// Data can be loaded through regular means with your
+// favorite javascript library, e.g.:
+//   d3.csv('data.csv', function(data) {...};
+//   d3.json('data.json', function(data) {...};
+//   jQuery.getJson('data.json', function(data){...});
+d3.csv('data/home.csv', function (rows) {
+  parseDateTimes(rows);
 
   // ### Create Crossfilter Dimensions and Groups
   // See the [crossfilter API](https://github.com/square/crossfilter/wiki/API-Reference)
