@@ -1,4 +1,4 @@
-# home-dashi
+# home-dashi [![Build Status](https://travis-ci.org/eddies/home-dashi.svg?branch=master)](https://travis-ci.org/eddies/home-dashi)
 A data dashboard for [HOME](http://home.org.sg/).
 
 ## Prerequisites
