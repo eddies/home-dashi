@@ -1,7 +1,6 @@
 /*jshint node:true*/
 
-// Generated on 2015-04-28 using
-// generator-lessapp 0.5.1
+// Generated on 2015-05-09 using generator-dashi 0.1.5
 'use strict';
 
 // # Globbing
@@ -103,7 +102,7 @@ module.exports = function (grunt) {
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/fonts', connect.static('./bower_components/bootstrap/dist/fonts')),
               connect.static(config.app),
-              // Added so we can use /app/scripts/main.js from test/index.html
+              // Supports using /app/scripts/main.js from test/index.html
               connect().use('/app', connect.static(config.app))
             ];
           }
@@ -214,7 +213,8 @@ module.exports = function (grunt) {
       app: {
         ignorePath: /^\/|\.\.\//,
         src: ['<%= config.app %>/index.html'],
-        exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
+        // We need bootstrap.js to support bootstrap tabs
+        //exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
       },
       less: {
         src: ['<%= config.app %>/styles/{,*/}*.less'],
@@ -245,7 +245,7 @@ module.exports = function (grunt) {
       options: {
         dest: '<%= config.dist %>'
       },
-      html: '<%= config.app %>/index.html'
+      html: '<%= config.app %>/*.html'
     },
 
      // Performs rewrites based on rev and the useminPrepare configuration
