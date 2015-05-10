@@ -8,31 +8,33 @@
 // css selector.
 // Note: It is often a good idea to have these objects accessible at the global 
 // scope so that they can be modified or filtered by other page controls.
-var d_case_opening_dtChart = dc.barChart('#d_case_opening_dt-chart');
-var d_case_closing_dtChart = dc.barChart('#d_case_closing_dt-chart');
-var d_created_onChart = dc.barChart('#d_created_on-chart');
-var d_modified_onChart = dc.barChart('#d_modified_on-chart');
-var d_casests_codeChart = dc.rowChart('#d_casests_code-chart');
+var case_opening_dtChart = dc.barChart('#case_opening_dt-chart');
+var case_closing_dtChart = dc.barChart('#case_closing_dt-chart');
+var created_onChart = dc.barChart('#created_on-chart');
+var modified_onChart = dc.barChart('#modified_on-chart');
+var sg_arrival_dateChart = dc.barChart('#sg_arrival_date-chart');
+var start_working_dtChart = dc.barChart('#start_working_dt-chart');
 
-var d_agency_nmChart = dc.rowChart('#d_agency_nm-chart');
-var d_sg_arrival_dateChart = dc.barChart('#d_sg_arrival_date-chart');
-var d_sg_stay_total_daysChart = dc.barChart('#d_sg_stay_total_days-chart');
-var d_start_working_dtChart = dc.barChart('#d_start_working_dt-chart');
+var genderChart = dc.pieChart('#gender-chart');
+var worker_tpChart = dc.rowChart('#worker_tp-chart');
+var edulvl_codeChart = dc.rowChart('#edulvl_code-chart');
+var marists_codeChart = dc.rowChart('#marists_code-chart');
+var natl_codeChart = dc.rowChart('#natl_code-chart');
 
-var d_ageChart = dc.barChart('#d_age-chart');
-var d_edulvl_codeChart = dc.rowChart('#d_edulvl_code-chart');
-var d_genderChart = dc.pieChart('#d_gender-chart');
-var d_marists_codeChart = dc.rowChart('#d_marists_code-chart');
-var d_martsts_dpdntsChart = dc.barChart('#d_martsts_dpdnts-chart');
-var d_natl_codeChart = dc.rowChart('#d_natl_code-chart');
-var d_relg_codeChart = dc.rowChart('#d_relg_code-chart');
+var abuseChart = dc.rowChart('#abuse-chart');
+var ageChart = dc.barChart('#age-chart');
+var total_sal_pm_domesticChart = dc.barChart('#total_sal_pm_domestic-chart');
+var casests_codeChart = dc.rowChart('#casests_code-chart');
 
-// domestic-only fields
-var d_abuseChart = dc.rowChart('#d_abuse-chart');
-var d_day_off_per_mthChart = dc.barChart('#d_day_off_per_mth-chart');
-var d_stay_durationChart = dc.barChart('#d_stay_duration-chart');
-var d_total_sal_pm_domesticChart = dc.barChart('#d_total_sal_pm_domestic-chart');
+var relg_codeChart = dc.rowChart('#relg_code-chart');
+var martsts_dpdntsChart = dc.barChart('#martsts_dpdnts-chart');
+var sg_stay_total_daysChart = dc.barChart('#sg_stay_total_days-chart');
+var agency_nmChart = dc.rowChart('#agency_nm-chart');
 
+var industryChart = dc.barChart('#industry-chart');
+var stay_durationChart = dc.barChart('#stay_duration-chart');
+var non_domestic_salaryChart = dc.barChart('#non_domestic_salary-chart');
+var day_off_per_mthChart = dc.barChart('#day_off_per_mth-chart');
 
 // ### Anchor Div for Charts
 /*
@@ -127,11 +129,16 @@ d3.csv('data/domestic.csv', function (rows) {
   var sg_stay_total_days_dimGroup = sg_stay_total_days_dim.group();
   var agency_nm_dimGroup = agency_nm_dim.group();
 
+  var industry_dim = cf.dimension(function (d) {return d.indsttp_code; });
+  var industry_dimGroup = industry_dim.group();
+
+  var worker_tp_dim = cf.dimension(function (d) { return d.worker_tp; });
   var gender_dim = cf.dimension(function (d) { return d.gender; });
   var edulvl_code_dim = cf.dimension(function (d) { return d.edulvl_code; });
   var marists_code_dim = cf.dimension(function (d) { return d.marists_code; });
   var natl_code_dim = cf.dimension(function (d) { return d.natl_code; });
   var casests_code_dim = cf.dimension(function (d) { return d.casests_code; });
+  var worker_tp_dimGroup = worker_tp_dim.group();
   var gender_dimGroup = gender_dim.group();
   var edulvl_code_dimGroup = edulvl_code_dim.group();
   var marists_code_dimGroup = marists_code_dim.group();
@@ -164,17 +171,17 @@ d3.csv('data/domestic.csv', function (rows) {
   	if (d.emotional_abuse_tick === 'Y') { return 'emotional_abuse'; }
   	if (d.sexual_abuse_tick === 'Y') { return 'sexual_abuse'; }
   	if (d.illegal_deploy_tick === 'Y') { return 'illegal_deploy'; }
-    if (d.salary_no_pay_tick === 'Y') { return 'salary_no_pay'; }
-    if (d.withheld_wages_tick === 'Y') { return 'withheld_wages'; }
-    if (d.deduction_from_wages_tick === 'Y') { return 'deduction_from_wages'; }
-    if (d.medical_related_tick === 'Y') { return 'medical_related'; }
-    if (d.poor_living_cond_tick === 'Y') { return 'poor_living_cond'; }
-    if (d.issues_with_agent_tick === 'Y') { return 'issues_with_agent'; }
   	if (d.overwork_tick === 'Y') { return 'overwork'; }
-    if (d.safety_at_workplace_tick === 'Y') { return 'safety_at_workplace'; }
-    if (d.insufficient_food_tick === 'Y') { return 'insufficient_food'; }
   	if (d.dismissed_from_job_tick === 'Y') { return 'dismissed_from_job'; }
-    if (d.other_issues_tick === 'Y') { return 'other'; }
+  	if (d.insufficient_food_tick === 'Y') { return 'insufficient_food'; }
+  	if (d.poor_living_cond_tick === 'Y') { return 'poor_living_cond'; }
+  	if (d.medical_related_tick === 'Y') { return 'medical_related'; }
+  	if (d.safety_at_workplace_tick === 'Y') { return 'safety_at_workplace'; }
+  	if (d.salary_no_pay_tick === 'Y') { return 'salary_no_pay'; }
+  	if (d.withheld_wages_tick === 'Y') { return 'withheld_wages'; }
+  	if (d.deduction_from_wages_tick === 'Y') { return 'deduction_from_wages'; }
+  	if (d.issues_with_agent_tick === 'Y') { return 'issues_with_agent'; }
+  	if (d.other_tick === 'Y') { return 'other'; }
   	return 'none';
   });
   var abuse_dimGroup = abuse_dim.group();
@@ -199,13 +206,33 @@ d3.csv('data/domestic.csv', function (rows) {
   var stay_duration_dimGroup = stay_duration_dim.group();
   var stay_duration_name = ['NA', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '12+'];
 
+  var non_domestic_salary_dim = cf.dimension(function(e){
+  	var d = Math.round(e.basic_salary_in_SGD_hour);
+
+  	if (!isFinite(d) || isNaN(d)) { return 'NA'; }
+  	if (d <= 10) {
+      return d.toString();
+  	} else {
+      return '10+';
+    }
+  });
+  var non_domestic_salary_dimGroup = non_domestic_salary_dim.group();
+  var non_domestic_salary_name = ['NA', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '10+'];
+
   var day_off_per_mth_dim = cf.dimension(function(d) { return d.day_off_per_mth; });
   var day_off_per_mth_dimGroup = day_off_per_mth_dim.group();
 
-  d_genderChart.dimension(gender_dim).group(gender_dimGroup)
+  worker_tpChart.dimension(worker_tp_dim).group(worker_tp_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 10})
+  	.width($(worker_tpChart.root()[0]).parent().width())
+  	.height(200)
+  	.elasticX(true)
+  	.xAxis().ticks(4)
+      ;
+  genderChart.dimension(gender_dim).group(gender_dimGroup)
     .radius(80)
     .label(function (d) {
-      if (d_genderChart.hasFilter() && !d_genderChart.hasFilter(d.key)) {
+      if (genderChart.hasFilter() && !genderChart.hasFilter(d.key)) {
           return d.key + '(0%)';
       }
       var label = d.key;
@@ -215,30 +242,30 @@ d3.csv('data/domestic.csv', function (rows) {
       return label;  
     })
       ;
-  d_edulvl_codeChart.dimension(edulvl_code_dim).group(edulvl_code_dimGroup)
+  edulvl_codeChart.dimension(edulvl_code_dim).group(edulvl_code_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_edulvl_codeChart.root()[0]).parent().width())
+  	.width($(edulvl_codeChart.root()[0]).parent().width())
   	.height(200)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
-  d_edulvl_codeChart.data(function(group){
+  edulvl_codeChart.data(function(group){
   	return group.top(5);
   });
-  d_marists_codeChart.dimension(marists_code_dim).group(marists_code_dimGroup)
+  marists_codeChart.dimension(marists_code_dim).group(marists_code_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_marists_codeChart.root()[0]).parent().width())
+  	.width($(marists_codeChart.root()[0]).parent().width())
   	.height(200)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
-  d_marists_codeChart.data(function(group){
+  marists_codeChart.data(function(group){
   	return group.top(5);
   });
 
-  d_ageChart.dimension(age_dim).group(age_dimGroup)
+  ageChart.dimension(age_dim).group(age_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_ageChart.root()[0]).parent().width())
+  	.width($(ageChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.linear().domain([15,60]))
       .elasticY(true)
@@ -246,9 +273,9 @@ d3.csv('data/domestic.csv', function (rows) {
   	.xAxis().ticks(4)
       ;
 
-  d_total_sal_pm_domesticChart.dimension(total_sal_pm_domestic_dim).group(total_sal_pm_domestic_dimGroup)
+  total_sal_pm_domesticChart.dimension(total_sal_pm_domestic_dim).group(total_sal_pm_domestic_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_total_sal_pm_domesticChart.root()[0]).parent().width())
+  	.width($(total_sal_pm_domesticChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(total_sal_pm_domestic_names))
       .xUnits(dc.units.ordinal)
@@ -256,75 +283,75 @@ d3.csv('data/domestic.csv', function (rows) {
   	.xAxis().ticks(4)
       ;
 
-  d_relg_codeChart.dimension(relg_code_dim).group(relg_code_dimGroup)
+  relg_codeChart.dimension(relg_code_dim).group(relg_code_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_relg_codeChart.root()[0]).parent().width())
+  	.width($(relg_codeChart.root()[0]).parent().width())
   	.height(200)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
-  d_relg_codeChart.data(function(group){
+  relg_codeChart.data(function(group){
   	return group.top(5);
   });
-  d_martsts_dpdntsChart.dimension(martsts_dpdnts_dim).group(martsts_dpdnts_dimGroup)
+  martsts_dpdntsChart.dimension(martsts_dpdnts_dim).group(martsts_dpdnts_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_martsts_dpdntsChart.root()[0]).parent().width())
+  	.width($(martsts_dpdntsChart.root()[0]).parent().width())
   	.height(200)
   	//.gap(70)
   	.x(d3.scale.linear().domain([0,5]))
       .elasticY(true)
   	.xAxis().ticks(4)
       ;
-  d_sg_stay_total_daysChart.dimension(sg_stay_total_days_dim).group(sg_stay_total_days_dimGroup)
+  sg_stay_total_daysChart.dimension(sg_stay_total_days_dim).group(sg_stay_total_days_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_sg_stay_total_daysChart.root()[0]).parent().width())
+  	.width($(sg_stay_total_daysChart.root()[0]).parent().width())
   	.height(200)
   	.gap(70)
   	.x(d3.scale.linear().domain([0,5]))
       .elasticY(true)
       ;
-  d_agency_nmChart.dimension(agency_nm_dim).group(agency_nm_dimGroup)
+  agency_nmChart.dimension(agency_nm_dim).group(agency_nm_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_agency_nmChart.root()[0]).parent().width())
+  	.width($(agency_nmChart.root()[0]).parent().width())
   	.height(200)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
-  d_agency_nmChart.data(function(group){
+  agency_nmChart.data(function(group){
   	return group.top(5);
   });
 
-  d_natl_codeChart.dimension(natl_code_dim).group(natl_code_dimGroup)
+  natl_codeChart.dimension(natl_code_dim).group(natl_code_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_natl_codeChart.root()[0]).parent().width())
+  	.width($(natl_codeChart.root()[0]).parent().width())
   	.height(400)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
-  d_natl_codeChart.data(function(group){
+  natl_codeChart.data(function(group){
   	return group.top(8);
   });
 
-  d_casests_codeChart.dimension(casests_code_dim).group(casests_code_dimGroup)
+  casests_codeChart.dimension(casests_code_dim).group(casests_code_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_casests_codeChart.root()[0]).parent().width())
+  	.width($(casests_codeChart.root()[0]).parent().width())
   	.height(400)
   	.elasticX(true)
   	.gap(1)
   	.xAxis().ticks(4)
       ;
-  d_casests_codeChart.data(function(group){
+  casests_codeChart.data(function(group){
   	return group.top(8);
   });
 
-  d_abuseChart.dimension(abuse_dim).group(abuse_dimGroup)
+  abuseChart.dimension(abuse_dim).group(abuse_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
-  	.width($(d_abuseChart.root()[0]).parent().width())
+  	.width($(abuseChart.root()[0]).parent().width())
   	.height(400)
   	.elasticX(true)
   	.gap(1)
     .label(function (d) {
-      if (d_abuseChart.hasFilter() && !d_abuseChart.hasFilter(d.key)) {
+      if (abuseChart.hasFilter() && !abuseChart.hasFilter(d.key)) {
         return d.key + ' (0%)';
       }
       var label = d.key;
@@ -335,55 +362,55 @@ d3.csv('data/domestic.csv', function (rows) {
     })
   	.xAxis().ticks(4)
       ;
-  d_abuseChart.data(function(group){
+  abuseChart.data(function(group){
   	return group.top(8);
   });
 
-  d_case_opening_dtChart.dimension(case_opening_dt_dim).group(case_opening_dt_dimGroup)
-  	.width($(d_case_opening_dtChart.root()[0]).parent().width())
+  case_opening_dtChart.dimension(case_opening_dt_dim).group(case_opening_dt_dimGroup)
+  	.width($(case_opening_dtChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
       .xUnits(d3.time.months)
       .elasticY(true)
       ;
-  d_case_closing_dtChart.dimension(case_closing_dt_dim).group(case_closing_dt_dimGroup)
+  case_closing_dtChart.dimension(case_closing_dt_dim).group(case_closing_dt_dimGroup)
     .margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_case_closing_dtChart.root()[0]).parent().width())
+  	.width($(case_closing_dtChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
       .xUnits(d3.time.months)
       .elasticY(true)
       ;
-  d_created_onChart.dimension(created_on_dim).group(created_on_dimGroup)
-  	.width($(d_created_onChart.root()[0]).parent().width())
+  created_onChart.dimension(created_on_dim).group(created_on_dimGroup)
+  	.width($(created_onChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
       .xUnits(d3.time.months)
       .elasticY(true)
       ;
-  d_modified_onChart.dimension(modified_on_dim).group(modified_on_dimGroup)
+  modified_onChart.dimension(modified_on_dim).group(modified_on_dimGroup)
     .margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_modified_onChart.root()[0]).parent().width())
+  	.width($(modified_onChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
       .xUnits(d3.time.months)
       .elasticY(true)
       ;
-  d_sg_arrival_dateChart.dimension(sg_arrival_date_dim).group(sg_arrival_date_dimGroup)
-  	.width($(d_sg_arrival_dateChart.root()[0]).parent().width())
+  sg_arrival_dateChart.dimension(sg_arrival_date_dim).group(sg_arrival_date_dimGroup)
+  	.width($(sg_arrival_dateChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
       .xUnits(d3.time.months)
       .elasticY(true)
       ;
-  d_start_working_dtChart.dimension(start_working_dt_dim).group(start_working_dt_dimGroup)
+  start_working_dtChart.dimension(start_working_dt_dim).group(start_working_dt_dimGroup)
     .margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_start_working_dtChart.root()[0]).parent().width())
+  	.width($(start_working_dtChart.root()[0]).parent().width())
   	.height(150)
       .x(d3.time.scale().domain([new Date(2011, 0, 1), new Date(2014, 0, 1)]))
       .round(d3.time.month.round)
@@ -391,9 +418,19 @@ d3.csv('data/domestic.csv', function (rows) {
       .elasticY(true)
       ;
 
-  d_stay_durationChart.dimension(stay_duration_dim).group(stay_duration_dimGroup)
+  industryChart.dimension(industry_dim).group(industry_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_stay_durationChart.root()[0]).parent().width())
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(industry_dimGroup))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+
+  stay_durationChart.dimension(stay_duration_dim).group(stay_duration_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
+  	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(stay_duration_name))
       .xUnits(dc.units.ordinal)
@@ -401,9 +438,19 @@ d3.csv('data/domestic.csv', function (rows) {
   	.xAxis().ticks(4)
       ;
 
-  d_day_off_per_mthChart.dimension(day_off_per_mth_dim).group(day_off_per_mth_dimGroup)
+  non_domestic_salaryChart.dimension(non_domestic_salary_dim).group(non_domestic_salary_dimGroup)
   	.margins({top: 10, right: 10, bottom: 30, left: 40})
-  	.width($(d_day_off_per_mthChart.root()[0]).parent().width())
+  	.width($(industryChart.root()[0]).parent().width())
+  	.height(200)
+      .x(d3.scale.ordinal().domain(non_domestic_salary_name))
+      .xUnits(dc.units.ordinal)
+      .elasticY(true)
+  	.xAxis().ticks(4)
+      ;
+
+  day_off_per_mthChart.dimension(day_off_per_mth_dim).group(day_off_per_mth_dimGroup)
+  	.margins({top: 10, right: 10, bottom: 30, left: 40})
+  	.width($(industryChart.root()[0]).parent().width())
   	.height(200)
       .x(d3.scale.ordinal().domain(day_off_per_mth_dimGroup))
       .xUnits(dc.units.ordinal)
@@ -465,6 +512,7 @@ d3.csv('data/domestic.csv', function (rows) {
     // This code demonstrates generating the column header automatically based on the columns.
     .columns([
       'date',    // d['date'], ie, a field accessor; capitalized automatically
+      'worker_tp',    // ...
       'gender',   // ...
       {
         label: 'Duration (years)', // desired format of column name 'Change' when used as a label with a function.
