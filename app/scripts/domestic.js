@@ -297,7 +297,7 @@ d3.csv('data/domestic.csv', function (rows) {
   d_natl_codeChart.dimension(natl_code_dim).group(natl_code_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
   	.width($(d_natl_codeChart.root()[0]).parent().width())
-  	.height(400)
+  	.height(200)
   	.elasticX(true)
   	.xAxis().ticks(4)
       ;
@@ -308,7 +308,7 @@ d3.csv('data/domestic.csv', function (rows) {
   d_casests_codeChart.dimension(casests_code_dim).group(casests_code_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
   	.width($(d_casests_codeChart.root()[0]).parent().width())
-  	.height(400)
+  	.height(200)
   	.elasticX(true)
   	.gap(1)
   	.xAxis().ticks(4)
@@ -320,7 +320,7 @@ d3.csv('data/domestic.csv', function (rows) {
   d_abuseChart.dimension(abuse_dim).group(abuse_dimGroup)
   	//.margins({top: 10, right: 10, bottom: 30, left: 10})
   	.width($(d_abuseChart.root()[0]).parent().width())
-  	.height(400)
+  	.height(200)
   	.elasticX(true)
   	.gap(1)
     .label(function (d) {
@@ -465,7 +465,13 @@ d3.csv('data/domestic.csv', function (rows) {
     // This code demonstrates generating the column header automatically based on the columns.
     .columns([
       'date',    // d['date'], ie, a field accessor; capitalized automatically
-      'gender',   // ...
+      'gender',
+      {
+        label: 'Nationality',
+        format: function(d) {
+          return d.natl_code;
+        }
+      },
       {
         label: 'Duration (years)', // desired format of column name 'Change' when used as a label with a function.
         format: function (d) {
@@ -473,7 +479,8 @@ d3.csv('data/domestic.csv', function (rows) {
           return numberFormat(d.sg_stay_total_days / 365.0);
         }
       },
-      'day_off_per_mth',   // d['volume'], ie, a field accessor; capitalized automatically
+      
+      'day_off_per_mth',
       'total_sal_pm_domestic'
     ])
 

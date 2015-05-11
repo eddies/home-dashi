@@ -1,4 +1,17 @@
 <div class="row"> <!-- Row 1 -->
+  <section class="col-lg-5 col-xs-5 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_age-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>age</strong>
+          <a class="reset" href="javascript:d_ageChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
+  
   <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
@@ -11,7 +24,23 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-      
+  
+  <section class="col-lg-4 col-xs-4 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_natl_code-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>Nationality</strong>
+          <a class="reset" href="javascript:d_natl_codeChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
+</div><!-- /Row 1 -->
+
+<div class="row"> <!-- Row 2 -->
+  
   <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
@@ -37,38 +66,8 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-</div><!-- /Row 1 -->
-
-<div class="row"> <!-- Row 2 -->
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_age-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>age</strong>
-          <a class="reset" href="javascript:d_ageChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_total_sal_pm_domestic-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>total_sal_pm_domestic</strong>
-          <a class="reset" href="javascript:d_total_sal_pm_domesticChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-</div><!-- /Row 2 -->
-
-<div class="row"> <!-- Row 3 -->
-  <section class="col-lg-2 col-xs-2 connectedSortable">
+  
+  <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
         <div id="d_marists_code-chart" class="dc-chart">
@@ -81,7 +80,7 @@
     </div>
   </section>
 
-  <section class="col-lg-2 col-xs-2 connectedSortable">
+  <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
         <div id="d_martsts_dpdnts-chart" class="dc-chart">
@@ -93,7 +92,9 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-      
+</div><!-- /Row 2 -->
+
+<div class="row"> <!-- Row 3 -->      
   <section class="col-lg-4 col-xs-4 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
@@ -106,13 +107,26 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-
+  
   <section class="col-lg-4 col-xs-4 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
-        <div id="d_agency_nm-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>agency_nm<strong>
-          <a class="reset" href="javascript:d_agency_nmChart.filterAll();dc.redrawAll();"
+        <div id="d_stay_duration-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>Stay duration (months)</strong>
+          <a class="reset" href="javascript:d_stay_durationChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
+  
+  <section class="col-lg-4 col-xs-4 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_day_off_per_mth-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>Number of days off per month</strong>
+          <a class="reset" href="javascript:d_day_off_per_mthChart.filterAll();dc.redrawAll();"
              style="display: none;">reset</a><br>
         </div>
       </div>
@@ -122,25 +136,25 @@
 </div><!-- /Row 3 -->
 
 <div class="row"> <!-- Row 4 -->
-  <section class="col-lg-4 col-xs-4 connectedSortable">
+  <section class="col-lg-5 col-xs-5 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
-        <div id="d_natl_code-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>Nationality</strong>
-          <a class="reset" href="javascript:d_natl_codeChart.filterAll();dc.redrawAll();"
+        <div id="d_total_sal_pm_domestic-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>total_sal_pm_domestic</strong>
+          <a class="reset" href="javascript:d_total_sal_pm_domesticChart.filterAll();dc.redrawAll();"
              style="display: none;">reset</a><br>
         </div>
       </div>
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-
-  <section class="col-lg-4 col-xs-4 connectedSortable">
+  
+  <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
-        <div id="d_casests_code-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>casests_code</strong>
-          <a class="reset" href="javascript:d_casests_codeChart.filterAll();dc.redrawAll();"
+        <div id="d_agency_nm-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>agency_nm<strong>
+          <a class="reset" href="javascript:d_agency_nmChart.filterAll();dc.redrawAll();"
              style="display: none;">reset</a><br>
         </div>
       </div>
@@ -162,26 +176,13 @@
   </section>
 </div><!-- /Row 4 -->
 
-<div class="row"> <!-- Row 5 -->
-  <section class="col-lg-6 col-xs-6 connectedSortable">
+<div class="row"> <!-- Row 5 -->  
+  <section class="col-lg-3 col-xs-3 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
-        <div id="d_case_opening_dt-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>case_opening_dt</strong>
-          <a class="reset" href="javascript:d_case_opening_dtChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_case_closing_dt-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>case_closing_dt</strong>
-          <a class="reset" href="javascript:d_case_closing_dtChart.filterAll();dc.redrawAll();"
+        <div id="d_casests_code-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>casests_code</strong>
+          <a class="reset" href="javascript:d_casests_codeChart.filterAll();dc.redrawAll();"
              style="display: none;">reset</a><br>
         </div>
       </div>
@@ -191,34 +192,6 @@
 </div><!-- /Row 5 -->
 
 <div class="row"> <!-- Row 6 -->
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_created_on-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>created_on</strong>
-          <a class="reset" href="javascript:d_created_onChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_modified_on-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>modified_on</strong>
-          <a class="reset" href="javascript:d_modified_onChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-</div><!-- /Row 6 -->
-
-<div class="row"> <!-- Row 7 -->
   <section class="col-lg-6 col-xs-6 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
@@ -244,16 +217,56 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-</div><!-- /Row 7 -->
+</div><!-- /Row 6 -->
 
-<div class="row"> <!-- Row 8 -->
+<div class="row"> <!-- Row 7 -->
+  <section class="col-lg-6 col-xs-6 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_case_opening_dt-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>case_opening_dt</strong>
+          <a class="reset" href="javascript:d_case_opening_dtChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
 
   <section class="col-lg-6 col-xs-6 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
-        <div id="d_stay_duration-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>Stay duration (months)</strong>
-          <a class="reset" href="javascript:d_stay_durationChart.filterAll();dc.redrawAll();"
+        <div id="d_case_closing_dt-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>case_closing_dt</strong>
+          <a class="reset" href="javascript:d_case_closing_dtChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
+</div><!-- /Row 7 -->
+
+<div class="row"> <!-- Row 8 -->
+  <section class="col-lg-6 col-xs-6 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_created_on-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>created_on</strong>
+          <a class="reset" href="javascript:d_created_onChart.filterAll();dc.redrawAll();"
+             style="display: none;">reset</a><br>
+        </div>
+      </div>
+      <div class="box-footer clearfix no-border"></div>
+    </div>
+  </section>
+
+  <section class="col-lg-6 col-xs-6 connectedSortable">
+    <div class="box box-success">
+      <div class="box-body">
+        <div id="d_modified_on-chart" class="dc-chart">
+          <i class="fa fa-inbox"></i> <strong>modified_on</strong>
+          <a class="reset" href="javascript:d_modified_onChart.filterAll();dc.redrawAll();"
              style="display: none;">reset</a><br>
         </div>
       </div>
@@ -263,22 +276,6 @@
 </div><!-- /Row 8 -->
 
 <div class="row"> <!-- Row 9 -->
-  
-  <section class="col-lg-6 col-xs-6 connectedSortable">
-    <div class="box box-success">
-      <div class="box-body">
-        <div id="d_day_off_per_mth-chart" class="dc-chart">
-          <i class="fa fa-inbox"></i> <strong>Number of days off per month</strong>
-          <a class="reset" href="javascript:d_day_off_per_mthChart.filterAll();dc.redrawAll();"
-             style="display: none;">reset</a><br>
-        </div>
-      </div>
-      <div class="box-footer clearfix no-border"></div>
-    </div>
-  </section>
-</div><!-- /Row 9 -->
-
-<div class="row"> <!-- Row 10 -->
   <section class="col-lg-12 col-xs-12 connectedSortable">
     <div class="box box-success">
       <div class="box-body">
@@ -293,7 +290,7 @@
       <div class="box-footer clearfix no-border"></div>
     </div>
   </section>
-</div><!-- /Row 10 -->
+</div><!-- /Row 9 -->
 
 <!-- build:js({app,.tmp}) scripts/domestic.js -->
 <script src="scripts/domestic.js"></script>
