@@ -11,7 +11,7 @@ The only tricky bit is getting npm installed. npm is installed as part of Node.j
 
 For example, most Mac or Windows users will probably want to install Node via one of the installers from [nodejs.org](https://nodejs.org/).
 
-Most Linux users will probably want to use their systems own package manager to install Node. Have a look at [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager). As of this writing (2015-05-04), the current version of Node.js is 0.12.2. 
+Most Linux users will probably want to use their system's own package manager to install Node. Have a look at [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager). As of this writing (2015-05-04), the current version of Node.js is 0.12.2. 
 
 Once npm is installed, installing grunt and bower is just:
 
