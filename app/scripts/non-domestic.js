@@ -436,7 +436,7 @@ d3.csv('data/non-domestic.csv', function (rows) {
     // (optional) sort order, :default ascending
     .order(d3.ascending)
     // (optional) custom renderlet to post-process chart using D3
-    .renderlet(function (table) {
+    .on('renderlet.n', function (table) {
       table.selectAll('.dc-table-group').classed('info', true);
     });
   
