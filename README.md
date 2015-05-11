@@ -27,7 +27,8 @@ bower install
 ```
 
 ### Add data:
-home-dashi expects the file, `app/data/home.csv`. This is not included in the GitHub repo, for data privacy reasons.
+home-dashi expects two data files, `app/data/domestic.csv` and `app/data/non-domestic.csv`. 
+These files are not included in the GitHub repo, for data privacy reasons.
 
 You're done!
 
