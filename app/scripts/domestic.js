@@ -8,30 +8,30 @@
 // css selector.
 // Note: It is often a good idea to have these objects accessible at the global 
 // scope so that they can be modified or filtered by other page controls.
-var d_case_opening_dtChart = dc.barChart('#d_case_opening_dt-chart');
-var d_case_closing_dtChart = dc.barChart('#d_case_closing_dt-chart');
-var d_created_onChart = dc.barChart('#d_created_on-chart');
-var d_modified_onChart = dc.barChart('#d_modified_on-chart');
-var d_casests_codeChart = dc.rowChart('#d_casests_code-chart');
+var d_case_opening_dtChart = dc.barChart('#d_case_opening_dt-chart', 'domestic');
+var d_case_closing_dtChart = dc.barChart('#d_case_closing_dt-chart', 'domestic');
+var d_created_onChart = dc.barChart('#d_created_on-chart', 'domestic');
+var d_modified_onChart = dc.barChart('#d_modified_on-chart', 'domestic');
+var d_casests_codeChart = dc.rowChart('#d_casests_code-chart', 'domestic');
 
-var d_agency_nmChart = dc.rowChart('#d_agency_nm-chart');
-var d_sg_arrival_dateChart = dc.barChart('#d_sg_arrival_date-chart');
-var d_sg_stay_total_daysChart = dc.barChart('#d_sg_stay_total_days-chart');
-var d_start_working_dtChart = dc.barChart('#d_start_working_dt-chart');
+var d_agency_nmChart = dc.rowChart('#d_agency_nm-chart', 'domestic');
+var d_sg_arrival_dateChart = dc.barChart('#d_sg_arrival_date-chart', 'domestic');
+var d_sg_stay_total_daysChart = dc.barChart('#d_sg_stay_total_days-chart', 'domestic');
+var d_start_working_dtChart = dc.barChart('#d_start_working_dt-chart', 'domestic');
 
-var d_ageChart = dc.barChart('#d_age-chart');
-var d_edulvl_codeChart = dc.rowChart('#d_edulvl_code-chart');
-var d_genderChart = dc.pieChart('#d_gender-chart');
-var d_marists_codeChart = dc.rowChart('#d_marists_code-chart');
-var d_martsts_dpdntsChart = dc.barChart('#d_martsts_dpdnts-chart');
-var d_natl_codeChart = dc.rowChart('#d_natl_code-chart');
-var d_relg_codeChart = dc.rowChart('#d_relg_code-chart');
+var d_ageChart = dc.barChart('#d_age-chart', 'domestic');
+var d_edulvl_codeChart = dc.rowChart('#d_edulvl_code-chart', 'domestic');
+var d_genderChart = dc.pieChart('#d_gender-chart', 'domestic');
+var d_marists_codeChart = dc.rowChart('#d_marists_code-chart', 'domestic');
+var d_martsts_dpdntsChart = dc.barChart('#d_martsts_dpdnts-chart', 'domestic');
+var d_natl_codeChart = dc.rowChart('#d_natl_code-chart', 'domestic');
+var d_relg_codeChart = dc.rowChart('#d_relg_code-chart', 'domestic');
 
 // domestic-only fields
-var d_abuseChart = dc.rowChart('#d_abuse-chart');
-var d_day_off_per_mthChart = dc.barChart('#d_day_off_per_mth-chart');
-var d_stay_durationChart = dc.barChart('#d_stay_duration-chart');
-var d_total_sal_pm_domesticChart = dc.barChart('#d_total_sal_pm_domestic-chart');
+var d_abuseChart = dc.rowChart('#d_abuse-chart', 'domestic');
+var d_day_off_per_mthChart = dc.barChart('#d_day_off_per_mth-chart', 'domestic');
+var d_stay_durationChart = dc.barChart('#d_stay_duration-chart', 'domestic');
+var d_total_sal_pm_domesticChart = dc.barChart('#d_total_sal_pm_domestic-chart', 'domestic');
 
 
 // ### Anchor Div for Charts
@@ -421,7 +421,7 @@ d3.csv('data/domestic.csv', function (rows) {
       <span class='filter-count'></span> selected out of <span class='total-count'></span> records
   </div>
   */
-  dc.dataCount('.dc-data-count')
+  dc.dataCount('#d_data-count', 'domestic')
     .dimension(cf)
     .group(all)
     // (optional) html, for setting different html for some records and all records.
@@ -429,7 +429,7 @@ d3.csv('data/domestic.csv', function (rows) {
     // %filter-count and %total-count are replaced with the values obtained.
     .html({
       some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-        ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
+        ' | <a href=\"javascript:dc.filterAll(\'domestic\'); dc.renderAll(\'domestic\');\">Reset All</a>',
       all:'All records selected. Please click on the graph to apply filters.'
     });
     
@@ -452,7 +452,7 @@ d3.csv('data/domestic.csv', function (rows) {
       <!-- data rows will filled in here -->
   </div>
   */
-  dc.dataTable('.dc-data-table')
+  dc.dataTable('#d_data-table', 'domestic')
     .dimension(case_opening_dt_dim)
     // data table does not use crossfilter group but rather a closure
     // as a grouping function
@@ -498,7 +498,7 @@ d3.csv('data/domestic.csv', function (rows) {
 
   //#### Rendering
   //simply call renderAll() to render all charts on the page
-  dc.renderAll();
+  dc.renderAll('domestic');
   /*
   // or you can render charts belong to a specific chart group
   dc.renderAll('group');

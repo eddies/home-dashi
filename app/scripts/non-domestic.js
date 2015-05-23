@@ -8,27 +8,27 @@
 // css selector.
 // Note: It is often a good idea to have these objects accessible at the global 
 // scope so that they can be modified or filtered by other page controls.
-var case_opening_dtChart = dc.barChart('#case_opening_dt-chart');
-var case_closing_dtChart = dc.barChart('#case_closing_dt-chart');
-var casests_codeChart = dc.rowChart('#casests_code-chart');
+var case_opening_dtChart = dc.barChart('#case_opening_dt-chart', 'non-domestic');
+var case_closing_dtChart = dc.barChart('#case_closing_dt-chart', 'non-domestic');
+var casests_codeChart = dc.rowChart('#casests_code-chart', 'non-domestic');
 
-var agency_nmChart = dc.rowChart('#agency_nm-chart');
-var sg_arrival_dateChart = dc.barChart('#sg_arrival_date-chart');
-var sg_stay_total_daysChart = dc.barChart('#sg_stay_total_days-chart');
-var start_working_dtChart = dc.barChart('#start_working_dt-chart');
+var agency_nmChart = dc.rowChart('#agency_nm-chart', 'non-domestic');
+var sg_arrival_dateChart = dc.barChart('#sg_arrival_date-chart', 'non-domestic');
+var sg_stay_total_daysChart = dc.barChart('#sg_stay_total_days-chart', 'non-domestic');
+var start_working_dtChart = dc.barChart('#start_working_dt-chart', 'non-domestic');
 
-var ageChart = dc.barChart('#age-chart');
-var edulvl_codeChart = dc.rowChart('#edulvl_code-chart');
-var genderChart = dc.pieChart('#gender-chart');
-var marists_codeChart = dc.rowChart('#marists_code-chart');
-var martsts_dpdntsChart = dc.barChart('#martsts_dpdnts-chart');
-var natl_codeChart = dc.rowChart('#natl_code-chart');
-var relg_codeChart = dc.rowChart('#relg_code-chart');
+var ageChart = dc.barChart('#age-chart', 'non-domestic');
+var edulvl_codeChart = dc.rowChart('#edulvl_code-chart', 'non-domestic');
+var genderChart = dc.pieChart('#gender-chart', 'non-domestic');
+var marists_codeChart = dc.rowChart('#marists_code-chart', 'non-domestic');
+var martsts_dpdntsChart = dc.barChart('#martsts_dpdnts-chart', 'non-domestic');
+var natl_codeChart = dc.rowChart('#natl_code-chart', 'non-domestic');
+var relg_codeChart = dc.rowChart('#relg_code-chart', 'non-domestic');
 
 // non-domestic only fields
-var abuseChart = dc.rowChart('#abuse-chart');
-var industryChart = dc.barChart('#industry-chart');
-var non_domestic_salaryChart = dc.barChart('#non_domestic_salary-chart');
+var abuseChart = dc.rowChart('#abuse-chart', 'non-domestic');
+var industryChart = dc.barChart('#industry-chart', 'non-domestic');
+var non_domestic_salaryChart = dc.barChart('#non_domestic_salary-chart', 'non-domestic');
 
 // ### Anchor Div for Charts
 /*
@@ -374,7 +374,7 @@ d3.csv('data/non-domestic.csv', function (rows) {
       <span class='filter-count'></span> selected out of <span class='total-count'></span> records
   </div>
   */
-  dc.dataCount('.dc-data-count')
+  dc.dataCount('#data-count', 'non-domestic')
     .dimension(cf)
     .group(all)
     // (optional) html, for setting different html for some records and all records.
@@ -382,7 +382,7 @@ d3.csv('data/non-domestic.csv', function (rows) {
     // %filter-count and %total-count are replaced with the values obtained.
     .html({
       some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-        ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
+        ' | <a href=\"javascript:dc.filterAll(\'non-domestic\'); dc.renderAll(\'non-domestic\');\">Reset All</a>',
       all:'All records selected. Please click on the graph to apply filters.'
     });
     
@@ -405,7 +405,7 @@ d3.csv('data/non-domestic.csv', function (rows) {
       <!-- data rows will filled in here -->
   </div>
   */
-  dc.dataTable('.dc-data-table')
+  dc.dataTable('#data-table', 'non-domestic')
     .dimension(case_opening_dt_dim)
     // data table does not use crossfilter group but rather a closure
     // as a grouping function
@@ -443,7 +443,7 @@ d3.csv('data/non-domestic.csv', function (rows) {
 
   //#### Rendering
   //simply call renderAll() to render all charts on the page
-  dc.renderAll();
+  dc.renderAll('non-domestic');
   /*
   // or you can render charts belong to a specific chart group
   dc.renderAll('group');
